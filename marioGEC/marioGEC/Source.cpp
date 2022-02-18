@@ -76,7 +76,6 @@ void CloseSDL() {
 	IMG_Quit();
 	SDL_Quit();
 
-	FreeTexture();
 	SDL_DestroyRenderer(g_renderer);
 	g_renderer = nullptr;
 
@@ -121,9 +120,3 @@ SDL_Texture* LoadTextureFromFile(string path) {
 	return p_texture;
 }
 
-void FreeTexture() {
-	if (g_texture != nullptr) {
-		SDL_DestroyTexture(g_texture);
-		g_texture = nullptr;
-	}
-}
