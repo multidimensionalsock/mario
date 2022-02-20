@@ -15,7 +15,6 @@ class GameScreenLevel1 : GameScreen{
 		~GameScreenLevel1();
 
 		void Render() override;
-		void Update(float deltaTime, SDL_Event e) override;
-	
+		void Update(float deltaTime, SDL_Event e) override;	
 };
 
