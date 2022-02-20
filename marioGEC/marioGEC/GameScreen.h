@@ -4,6 +4,7 @@
 #include "SDL.h";
 
 class GameScreen{
+public:
 	SDL_Renderer* m_renderer;
 
 	GameScreen(SDL_Renderer* renderer);
