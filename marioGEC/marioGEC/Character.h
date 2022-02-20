@@ -7,6 +7,7 @@
 #include <string>
 
 class Texture2D;
+class Character;
 
 class Character{
 	protected:

@@ -5,10 +5,12 @@
 #include "Commons.h"
 
 class Texture2D; //forward declaration
+class Character;
 
 class GameScreenLevel1 : GameScreen{
 	private:
 		Texture2D* m_background_texture;
+		Character* my_character;
 
 		bool SetUpLevel();
 
