@@ -19,9 +19,14 @@ class Character{
 		Texture2D* m_texture;
 		bool m_moving_left;
 		bool m_moving_right;
+		bool m_jumping;
+		bool m_can_jump;
+		float m_jump_force;
 
 		virtual void MoveLeft(float deltaTime);
 		virtual void MoveRight(float deltaTime);
+		virtual void AddGravity(float deltaTime);
+		virtual void Jump();
 
 	public:
 		Character(SDL_Renderer* renderer, std::string imagePath, Vector2D start_position);

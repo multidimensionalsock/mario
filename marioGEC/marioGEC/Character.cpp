@@ -29,6 +29,16 @@ void Character::Render() {
 };
 
 void Character::Update(float deltaTime, SDL_Event e) {
+    AddGravity(deltaTime);
+    if (m_jumping) {
+        m_position.y -= m_jump_force * deltaTime;
+        m_jump_force -= JUMP_FORCE_DECREMENT * deltaTime;
+        
+
+        if (m_jump_force <= 0.0f)
+            m_jumping = false;
+    }
+
     if (m_moving_left) {
         MoveLeft(deltaTime);
     }
@@ -46,6 +56,10 @@ void Character::Update(float deltaTime, SDL_Event e) {
         case SDLK_RIGHT:
             m_moving_right = true;
             break;
+        case SDLK_SPACE:
+            if (m_can_jump) {
+                Jump();
+            }
         }
         break;
     case SDL_KEYUP:
@@ -75,4 +89,23 @@ void Character::MoveLeft(float deltaTime) {
 void Character::MoveRight(float deltaTime) {
     m_position.x += deltaTime * MOVEMENTSPEED;
     m_facing_direction = FACING_RIGHT;
+}
+
+void Character::AddGravity(float deltaTime) {
+    if ((m_position.y + 64) <= SCREEN_HEIGHT) {
+        m_position.y += GRAVITY;
+    }
+    else {
+        m_can_jump = true;
+    }
+}
+
+void Character::Jump() {
+    std::cout << m_jump_force <<std::endl;
+    if (!m_jumping) {
+        m_jump_force = INITIAL_JUMP_FORCE;
+        m_jumping = true;
+        m_can_jump = false;
+    }
+    std::cout << m_jump_force << std::endl;
 }
