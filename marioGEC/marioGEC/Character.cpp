@@ -9,6 +9,7 @@ Character::Character(SDL_Renderer* renderer, std::string imagePath, Vector2D sta
 	m_facing_direction = FACING_RIGHT;
     m_moving_left = false;
     m_moving_right = false;
+    m_collision_radius = 15.0f;
 
 	if (!m_texture->LoadFromFile(imagePath)) {
 		std::cout << "Failed to load background texture! " << std::endl;
@@ -108,4 +109,8 @@ void Character::Jump() {
         m_can_jump = false;
     }
     std::cout << m_jump_force << std::endl;
+}
+
+float Character::GetCollisionRadius() {
+    return m_collision_radius;
 }
