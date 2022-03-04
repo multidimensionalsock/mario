@@ -35,9 +35,9 @@ bool GameScreenLevel1::SetUpLevel() {
 void GameScreenLevel1::Update(float deltaTime, SDL_Event e) {
 	//update character
 	my_character->Update(deltaTime, e);
-	if (Collisions::Instance()->Circle(my_character, luigi)) {
+	/*if (Collisions::Instance()->Circle(my_character, luigi)) {
 		std::cout << "Circle hit!" << std::endl;
-	}
+	}*/
 	if (Collisions::Instance()->Box(my_character->GetCollisionBox(), luigi->GetCollisionBox())) {
 		std::cout << "box hit " << std::endl;
 	}
