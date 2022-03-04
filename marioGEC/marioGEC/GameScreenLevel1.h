@@ -3,6 +3,7 @@
 #define _GAMESCREENLEVEL1_H
 #include "GameScreen.h"
 #include "Commons.h"
+#include "Collisions.h"
 
 class Texture2D; //forward declaration
 class Character;
