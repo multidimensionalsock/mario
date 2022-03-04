@@ -17,10 +17,12 @@ void GameScreenLevel1::Render() {
 	//draw background
 	m_background_texture->Render(Vector2D(), SDL_FLIP_NONE);
 	my_character->Render();
+	luigi->Render();
 }
 
 bool GameScreenLevel1::SetUpLevel() {
 	my_character = new Character(m_renderer, "Images/Mario.png", Vector2D(64, 330));
+	luigi = new Character(m_renderer, "Images/Mario.png", Vector2D(150, 330));
 
 	m_background_texture = new Texture2D(m_renderer);
 	if (!m_background_texture->LoadFromFile("Images/test.bmp")) {

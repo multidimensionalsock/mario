@@ -11,6 +11,7 @@ class GameScreenLevel1 : GameScreen{
 	private:
 		Texture2D* m_background_texture;
 		Character* my_character;
+		Character* luigi;
 
 		bool SetUpLevel();
 
