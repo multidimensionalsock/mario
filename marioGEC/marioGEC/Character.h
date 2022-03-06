@@ -9,10 +9,12 @@
 
 class Texture2D;
 class Character;
+class LevelMap;
 
 class Character{
 	private:
 		FACING m_facing_direction;
+		LevelMap* m_current_level_map;
 
 	protected:
 		SDL_Renderer* m_renderer;
@@ -31,7 +33,7 @@ class Character{
 		virtual void Jump();
 
 	public:
-		Character(SDL_Renderer* renderer, std::string imagePath, Vector2D start_position);
+		Character(SDL_Renderer* renderer, std::string imagePath, Vector2D start_position, LevelMap* map);
 		~Character();
 
 		virtual void Render();

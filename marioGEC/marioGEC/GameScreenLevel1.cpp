@@ -19,12 +19,14 @@ void GameScreenLevel1::Render() {
 	//draw background
 	m_background_texture->Render(Vector2D(), SDL_FLIP_NONE);
 	my_character->Render();
-	luigi->Render();
+	//luigi->Render();
 }
 
 bool GameScreenLevel1::SetUpLevel() {
-	my_character = new Character(m_renderer, "Images/Mario.png", Vector2D(64, 330));
-	luigi = new Character(m_renderer, "Images/Mario.png", Vector2D(150, 330));
+	SetLevelMap();
+
+	my_character = new Character(m_renderer, "Images/Mario.png", Vector2D(64, 330),m_level_map);
+	//luigi = new Character(m_renderer, "Images/Mario.png", Vector2D(150, 330));
 
 	m_background_texture = new Texture2D(m_renderer);
 	if (!m_background_texture->LoadFromFile("Images/BackgroundMB.png")) {
@@ -37,12 +39,12 @@ bool GameScreenLevel1::SetUpLevel() {
 void GameScreenLevel1::Update(float deltaTime, SDL_Event e) {
 	//update character
 	my_character->Update(deltaTime, e);
-	if (Collisions::Instance()->Circle(my_character, luigi)) {
+	/*if (Collisions::Instance()->Circle(my_character, luigi)) {
 		std::cout << "Circle hit!" << std::endl;
 	}
 	if (Collisions::Instance()->Box(my_character->GetCollisionBox(), luigi->GetCollisionBox())) {
 		std::cout << "box hit " << std::endl;
-	}
+	}*/
 }
 
 void GameScreenLevel1::SetLevelMap() {

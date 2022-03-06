@@ -1,8 +1,9 @@
 #include "Character.h"
 #include "Texture2D.h"
 #include "Constants.h"
+#include "LevelMap.h"
 
-Character::Character(SDL_Renderer* renderer, std::string imagePath, Vector2D start_position) {
+Character::Character(SDL_Renderer* renderer, std::string imagePath, Vector2D start_position, LevelMap* map) {
 	m_renderer = renderer;
 	m_position = start_position;
 	m_texture = new Texture2D(renderer);
@@ -10,6 +11,7 @@ Character::Character(SDL_Renderer* renderer, std::string imagePath, Vector2D sta
     m_moving_left = false;
     m_moving_right = false;
     m_collision_radius = 15.0f;
+    m_current_level_map = map;
 
 	if (!m_texture->LoadFromFile(imagePath)) {
 		std::cout << "Failed to load background texture! " << std::endl;
