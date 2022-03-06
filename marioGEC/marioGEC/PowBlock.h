@@ -18,15 +18,12 @@ private:
 	int m_num_hits_left;
 
 public:
-	PowBlock(SDL_Renderer renderer, LevelMap* map);
+	PowBlock(SDL_Renderer* renderer, LevelMap* map);
 	~PowBlock();
 	void Render();
-	Rect2D GetCollisionsBox() { return Rect2D(m_position.x, m_position.y, (m_texture->GetWidth()), (m_texture->GetHeight()));
-}
+	Rect2D GetCollisionsBox() { return Rect2D(m_position.x, m_position.y, (m_texture->GetWidth()), (m_texture->GetHeight())); }
 	void TakeHit();
 	bool IsAvailable() { return m_num_hits_left > 0; }
-
-
 };
 
 #endif
