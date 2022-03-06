@@ -25,7 +25,7 @@ void GameScreenLevel1::Render() {
 bool GameScreenLevel1::SetUpLevel() {
 	SetLevelMap();
 
-	my_character = new Character(m_renderer, "Images/Mario.png", Vector2D(64, 330),m_level_map);
+	my_character = new Character(m_renderer, "Images/Mario.png", Vector2D(40, 330),m_level_map);
 	//luigi = new Character(m_renderer, "Images/Mario.png", Vector2D(150, 330));
 
 	m_background_texture = new Texture2D(m_renderer);
