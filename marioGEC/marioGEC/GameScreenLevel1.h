@@ -8,6 +8,7 @@
 class Texture2D; //forward declaration
 class Character;
 class LevelMap;
+class PowBlock;
 
 class GameScreenLevel1 : GameScreen{
 	private:
@@ -15,9 +16,12 @@ class GameScreenLevel1 : GameScreen{
 		Character* my_character;
 		//Character* luigi;
 		LevelMap* m_level_map;
+		PowBlock* m_pow_block;
+
 
 		bool SetUpLevel();
 		void SetLevelMap();
+		void UpdatePOWBlock();
 
 	public:
 		GameScreenLevel1(SDL_Renderer* renderer);

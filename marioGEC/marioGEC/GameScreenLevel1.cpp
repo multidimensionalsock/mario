@@ -3,6 +3,7 @@
 #include "Texture2D.h"
 #include "Character.h"
 #include "LevelMap.h"
+#include "PowBlock.h"
 
 GameScreenLevel1::GameScreenLevel1(SDL_Renderer* renderer) : GameScreen(renderer) {
 	SetUpLevel();
@@ -13,6 +14,7 @@ GameScreenLevel1::~GameScreenLevel1() {
 	delete my_character;
 	my_character = nullptr;
 	m_level_map = nullptr;
+	m_pow_block = nullptr;
 }
 
 void GameScreenLevel1::Render() {
@@ -20,6 +22,7 @@ void GameScreenLevel1::Render() {
 	m_background_texture->Render(Vector2D(), SDL_FLIP_NONE);
 	my_character->Render();
 	//luigi->Render();
+	m_pow_block->Render();
 }
 
 bool GameScreenLevel1::SetUpLevel() {
@@ -27,6 +30,7 @@ bool GameScreenLevel1::SetUpLevel() {
 
 	my_character = new Character(m_renderer, "Images/Mario.png", Vector2D(40, 330),m_level_map);
 	//luigi = new Character(m_renderer, "Images/Mario.png", Vector2D(150, 330));
+	m_pow_block = new PowBlock(m_renderer, m_level_map);
 
 	m_background_texture = new Texture2D(m_renderer);
 	if (!m_background_texture->LoadFromFile("Images/BackgroundMB.png")) {
@@ -45,6 +49,7 @@ void GameScreenLevel1::Update(float deltaTime, SDL_Event e) {
 	if (Collisions::Instance()->Box(my_character->GetCollisionBox(), luigi->GetCollisionBox())) {
 		std::cout << "box hit " << std::endl;
 	}*/
+	UpdatePOWBlock();
 }
 
 void GameScreenLevel1::SetLevelMap() {
@@ -69,4 +74,16 @@ void GameScreenLevel1::SetLevelMap() {
 	}
 	//set new one
 	m_level_map = new LevelMap(map);
+}
+
+void GameScreenLevel1::UpdatePOWBlock() {
+	if (Collisions::Instance()->Box(my_character->GetCollisionBox(), m_pow_block->GetCollisionsBox())) {
+		if (m_pow_block->IsAvailable()) {
+			if (my_character->Is_Jumping()) {
+				//DoScreenShake();
+				m_pow_block->TakeHit();
+				my_character->CancelJump();
+			}
+		}
+	}
 }
