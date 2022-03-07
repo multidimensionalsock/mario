@@ -17,11 +17,30 @@ PowBlock::PowBlock(SDL_Renderer* renderer, LevelMap* map) {
 	m_position = Vector2D((SCREEN_WIDTH * 0.5f) - m_single_sprite_w * 0.5f, 260);
 }
 PowBlock::~PowBlock() {
-
+	m_renderer = nullptr;
+	delete m_texture;
+	m_texture = nullptr;
+	m_level_map = nullptr;
 }
 void PowBlock::Render() {
+	if (m_num_hits_left > 0) {
+		//get the part of the sheet we want to draw
+		int left = m_single_sprite_w * (m_num_hits_left - 1);
+		SDL_Rect portion_of_sprite = { left, 0, m_single_sprite_w, m_single_sprite_h };
 
+		//determine where to draw it
+		SDL_Rect dest_rect = {
+			static_cast<int>(m_position.x), static_cast<int>(m_position.y), m_single_sprite_w, m_single_sprite_h
+		};
+		//draw sprite
+		m_texture->Render(portion_of_sprite, dest_rect, SDL_FLIP_NONE); //Texture2D::Render(Vector2D new_position, SDL_RendererFlip flip, double angle)
+	}
 }
 void PowBlock::TakeHit() {
-
+	m_num_hits_left -= 1;
+	if (m_num_hits_left <= 0) {
+		m_num_hits_left = 0;
+		m_level_map->ChangeTileAt(8, 7, 0);
+		m_level_map->ChangeTileAt(8, 8, 0);
+	}
 }
