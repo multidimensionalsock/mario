@@ -19,7 +19,7 @@ GameScreenLevel1::~GameScreenLevel1() {
 
 void GameScreenLevel1::Render() {
 	//draw background
-	m_background_texture->Render(Vector2D(), SDL_FLIP_NONE);
+	m_background_texture->Render(Vector2D(0, m_background_yPos), SDL_FLIP_NONE);
 	my_character->Render();
 	//luigi->Render();
 	m_pow_block->Render();
@@ -31,6 +31,8 @@ bool GameScreenLevel1::SetUpLevel() {
 	my_character = new Character(m_renderer, "Images/Mario.png", Vector2D(40, 330),m_level_map);
 	//luigi = new Character(m_renderer, "Images/Mario.png", Vector2D(150, 330));
 	m_pow_block = new PowBlock(m_renderer, m_level_map);
+	m_screenshake = false;
+	m_background_yPos = 0.0f;
 
 	m_background_texture = new Texture2D(m_renderer);
 	if (!m_background_texture->LoadFromFile("Images/BackgroundMB.png")) {
@@ -41,6 +43,18 @@ bool GameScreenLevel1::SetUpLevel() {
 }
 
 void GameScreenLevel1::Update(float deltaTime, SDL_Event e) {
+	//screen shake
+	if (m_screenshake) {
+		m_shake_time -= deltaTime;
+		m_wobble++;
+		m_background_yPos = sin(m_wobble);
+		m_background_yPos *= 3.0f;
+		if (m_shake_time <= 0.0f) {
+			m_shake_time = false;
+			m_background_yPos = 0.0f;
+		}
+	}
+
 	//update character
 	my_character->Update(deltaTime, e);
 	/*if (Collisions::Instance()->Circle(my_character, luigi)) {
@@ -80,10 +94,16 @@ void GameScreenLevel1::UpdatePOWBlock() {
 	if (Collisions::Instance()->Box(my_character->GetCollisionBox(), m_pow_block->GetCollisionsBox())) {
 		if (m_pow_block->IsAvailable()) {
 			if (my_character->Is_Jumping()) {
-				//DoScreenShake();
+				DoScreenshake();
 				m_pow_block->TakeHit();
 				my_character->CancelJump();
 			}
 		}
 	}
+}
+
+void GameScreenLevel1::DoScreenshake() {
+	m_screenshake = true;
+	m_shake_time = SHAKE_DURATION;
+	m_wobble = 0.0f;
 }
