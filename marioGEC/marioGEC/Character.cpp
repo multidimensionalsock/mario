@@ -12,6 +12,8 @@ Character::Character(SDL_Renderer* renderer, std::string imagePath, Vector2D sta
     m_moving_right = false;
     m_collision_radius = 15.0f;
     m_current_level_map = map;
+    m_movement_speed = 50.0f;
+    m_alive = true;
 
 	if (!m_texture->LoadFromFile(imagePath)) {
 		std::cout << "Failed to load background texture! " << std::endl;
@@ -95,12 +97,12 @@ void Character::SetPosition(Vector2D new_position) {
 Vector2D Character::GetPosition() { return m_position; }
 
 void Character::MoveLeft(float deltaTime) {
-    m_position.x -= deltaTime * MOVEMENTSPEED;
+    m_position.x -= deltaTime * m_movement_speed;
     m_facing_direction = FACING_LEFT;
 }
 
 void Character::MoveRight(float deltaTime) {
-    m_position.x += deltaTime * MOVEMENTSPEED;
+    m_position.x += deltaTime * m_movement_speed;
     m_facing_direction = FACING_RIGHT;
 }
 
