@@ -15,6 +15,8 @@ GameScreenLevel1::~GameScreenLevel1() {
 	my_character = nullptr;
 	m_level_map = nullptr;
 	m_pow_block = nullptr;
+
+	m_enemies.clear();
 }
 
 void GameScreenLevel1::Render() {
@@ -23,6 +25,9 @@ void GameScreenLevel1::Render() {
 	my_character->Render();
 	//luigi->Render();
 	m_pow_block->Render();
+	for (int i = 0; i < m_enemies.size(); i++) {
+		m_enemies[i]->Render();
+	}
 }
 
 bool GameScreenLevel1::SetUpLevel() {
@@ -33,6 +38,8 @@ bool GameScreenLevel1::SetUpLevel() {
 	m_pow_block = new PowBlock(m_renderer, m_level_map);
 	m_screenshake = false;
 	m_background_yPos = 0.0f;
+	CreateKoopa(Vector2D(180, 330), FACING_LEFT, 25.0f);
+	//Vector2D position, FACING direction, float speed
 
 	m_background_texture = new Texture2D(m_renderer);
 	if (!m_background_texture->LoadFromFile("Images/BackgroundMB.png")) {
@@ -63,6 +70,7 @@ void GameScreenLevel1::Update(float deltaTime, SDL_Event e) {
 	if (Collisions::Instance()->Box(my_character->GetCollisionBox(), luigi->GetCollisionBox())) {
 		std::cout << "box hit " << std::endl;
 	}*/
+	UpdateEnemies(deltaTime, e);
 	UpdatePOWBlock();
 }
 
@@ -106,4 +114,62 @@ void GameScreenLevel1::DoScreenshake() {
 	m_screenshake = true;
 	m_shake_time = SHAKE_DURATION;
 	m_wobble = 0.0f;
+	for (unsigned int i = 0; i < m_enemies.size(); i++) {
+		m_enemies[i]->TakeDamage();
+	}
+}
+
+void GameScreenLevel1::UpdateEnemies(float deltaTime, SDL_Event e){
+	//need t  add mario hit code myself 
+
+	if (!m_enemies.empty()){
+		int enemyIndexToDelete = -1;
+		for (unsigned int i = 0; i < m_enemies.size(); i++){
+			//check if the enemy is on bottom row of tiles
+			if (m_enemies[i]->GetPosition().y > 300.0f){
+				//check if enemy is left/right
+				if (m_enemies[i]->GetPosition().x < (float)(-m_enemies[i]->GetCollisionBox().width * 0.5f) || m_enemies[
+					i]->GetPosition().x > SCREEN_WIDTH - (float)(m_enemies[i]->GetCollisionBox().width * 0.55f))
+					m_enemies[i]->SetAlive(false);
+			}
+
+			m_enemies[i]->Update(deltaTime, e);
+
+			//check if enemy collides with player
+			if ((m_enemies[i]->GetPosition().y > 300.0f || m_enemies[i]->GetPosition().y <= 64.0f) && (m_enemies[i]->
+				GetPosition().x < 64.0f || m_enemies[i]->GetPosition().x > SCREEN_WIDTH - 96.0f)){
+				//ignore collisions if behind pipe
+			}
+			else{
+				if (Collisions::Instance()->Circle(m_enemies[i], my_character)){
+					if (m_enemies[i]->GetInjured()){
+						m_enemies[i]->SetAlive(false);
+					}
+					else{
+						my_character->SetAlive(false);
+					}
+				}
+			}
+
+			if (!m_enemies[i]->GetAlive()){
+				enemyIndexToDelete = i; //schedule dead enemies deletion
+			}
+
+			if (Collisions::Instance()->Box(my_character->GetCollisionBox(), m_enemies[i]->GetCollisionBox())) {
+				//if (my_character->Is_Jumping()) {
+					m_enemies[i]->TakeDamage();
+				//}
+			}
+		}
+
+		if (enemyIndexToDelete != -1){
+			m_enemies.erase(m_enemies.begin() + enemyIndexToDelete); // remove dead enemies
+		}
+	}
+
+}
+
+void GameScreenLevel1::CreateKoopa(Vector2D position, FACING direction, float speed){
+	koopa = new CharacterKoopa(m_renderer, "Images/Koopa.png", position, m_level_map, direction, speed);
+	m_enemies.push_back(koopa);
 }
