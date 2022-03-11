@@ -6,6 +6,7 @@
 #include "Collisions.h"
 #include <vector>
 #include "CharacterKoopa.h"
+#include "CharacterMario.h"
 
 class Texture2D; //forward declaration
 class Character;
@@ -15,7 +16,7 @@ class PowBlock;
 class GameScreenLevel1 : GameScreen{
 	private:
 		Texture2D* m_background_texture;
-		Character* my_character;
+		CharacterMario* my_character;
 		//Character* luigi;
 		CharacterKoopa* koopa;
 		LevelMap* m_level_map;
