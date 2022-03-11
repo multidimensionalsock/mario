@@ -1,5 +1,6 @@
 #include "CharacterKoopa.h"
 #include "Constants.h"
+#include "LevelMap.h"
 
 void CharacterKoopa::FlipRightWayUp(){
 	if (m_facing_direction == FACING_RIGHT) {
@@ -8,6 +9,7 @@ void CharacterKoopa::FlipRightWayUp(){
 	else if (m_facing_direction == FACING_LEFT) {
 		m_facing_direction = FACING_RIGHT;
 	}
+	m_injured = false;
 }
 
 CharacterKoopa::CharacterKoopa(SDL_Renderer* renderer, std::string imagePath, Vector2D start_position, LevelMap* map, FACING start_facing, float movement_speed) : Character(renderer, imagePath, start_position, map){
@@ -16,6 +18,7 @@ CharacterKoopa::CharacterKoopa(SDL_Renderer* renderer, std::string imagePath, Ve
 	m_position = start_position;
 	m_injured = false;
 	m_alive = true;
+	m_injured_time = 1000.0f;
 	
 	m_single_sprite_w = m_texture->GetWidth() /2;
 	m_single_sprite_h = m_texture->GetHeight();
@@ -56,6 +59,11 @@ void CharacterKoopa::Render(){
 }
 
 void CharacterKoopa::Update(float deltaTime, SDL_Event e){
+	int centralX_position = (int)(m_position.x + (m_texture->GetWidth() * 0.5)) / TILE_WIDTH;
+	int foot_position = (int)(m_position.y + m_texture->GetHeight()) / TILE_HEIGHT;
+	if (m_current_level_map->GetTileAt(foot_position, centralX_position) == 0) {
+		AddGravity(deltaTime);
+	}
 	Character::Update(deltaTime, e);
 	if (!m_injured) {
 		if (m_facing_direction == FACING_LEFT) {
@@ -76,6 +84,15 @@ void CharacterKoopa::Update(float deltaTime, SDL_Event e){
 
 		if (m_injured_time <= 0.0) {
 			FlipRightWayUp();
+			m_injured_time == 2.0f;
+		}
+	}
+	if (!m_injured) {
+		if (m_moving_right) {
+			m_position.x += m_movement_speed;
+		}
+		else {
+			m_position.x -= m_movement_speed;
 		}
 	}
 }

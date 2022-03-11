@@ -33,12 +33,13 @@ void GameScreenLevel1::Render() {
 bool GameScreenLevel1::SetUpLevel() {
 	SetLevelMap();
 
-	my_character = new Character(m_renderer, "Images/Mario.png", Vector2D(40, 330),m_level_map);
+	my_character = new CharacterMario(m_renderer, "Images/Mario.png", Vector2D(40, 330),m_level_map);
 	//luigi = new Character(m_renderer, "Images/Mario.png", Vector2D(150, 330));
 	m_pow_block = new PowBlock(m_renderer, m_level_map);
 	m_screenshake = false;
 	m_background_yPos = 0.0f;
-	CreateKoopa(Vector2D(180, 330), FACING_LEFT, 25.0f);
+	CreateKoopa(Vector2D(150, 32), FACING_RIGHT, 0.02f);
+	CreateKoopa(Vector2D(325, 32), FACING_LEFT, 0.02f);
 	//Vector2D position, FACING direction, float speed
 
 	m_background_texture = new Texture2D(m_renderer);
@@ -155,16 +156,17 @@ void GameScreenLevel1::UpdateEnemies(float deltaTime, SDL_Event e){
 				enemyIndexToDelete = i; //schedule dead enemies deletion
 			}
 
-			if (Collisions::Instance()->Box(my_character->GetCollisionBox(), m_enemies[i]->GetCollisionBox())) {
-				//if (my_character->Is_Jumping()) {
-					m_enemies[i]->TakeDamage();
-				//}
-			}
+			//if (Collisions::Instance()->Box(my_character->GetCollisionBox(), m_enemies[i]->GetCollisionBox())) {
+			//	//if (my_character->Is_Jumping()) {
+			//		m_enemies[i]->TakeDamage();
+			//	//}
+			//}
 		}
 
 		if (enemyIndexToDelete != -1){
 			m_enemies.erase(m_enemies.begin() + enemyIndexToDelete); // remove dead enemies
 		}
+		 
 	}
 
 }
