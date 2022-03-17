@@ -77,13 +77,12 @@ void GameScreenLevel1::SetLevelMap(std::string path) {
 	int map[MAP_HEIGHT][MAP_WIDTH];
 
 	for (int i = 0; i < MAP_HEIGHT; i++){
-		for (int j = 0; i < MAP_WIDTH; j++) {
+		for (int j = 0; j < MAP_WIDTH; j++) {
 			inFile >> map[i][j];
-			//std::cout << map[i][j];
+			std::cout << map[i][j];
 		}
 		
 	}
-	std::cout << map;
 	
 	/*int map[MAP_HEIGHT][MAP_WIDTH] = {
 		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
