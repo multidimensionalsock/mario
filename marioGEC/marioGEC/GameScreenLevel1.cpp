@@ -4,6 +4,8 @@
 #include "Character.h"
 #include "LevelMap.h"
 #include "PowBlock.h"
+#include <string>
+#include <fstream>
 
 GameScreenLevel1::GameScreenLevel1(SDL_Renderer* renderer) : GameScreen(renderer) {
 	SetUpLevel();
@@ -31,7 +33,7 @@ void GameScreenLevel1::Render() {
 }
 
 bool GameScreenLevel1::SetUpLevel() {
-	SetLevelMap();
+	SetLevelMap("Maps/Level1.txt");
 
 	my_character = new CharacterMario(m_renderer, "Images/Mario.png", Vector2D(40, 330),m_level_map);
 	//luigi = new Character(m_renderer, "Images/Mario.png", Vector2D(150, 330));
@@ -65,18 +67,25 @@ void GameScreenLevel1::Update(float deltaTime, SDL_Event e) {
 
 	//update character
 	my_character->Update(deltaTime, e);
-	/*if (Collisions::Instance()->Circle(my_character, luigi)) {
-		std::cout << "Circle hit!" << std::endl;
-	}
-	if (Collisions::Instance()->Box(my_character->GetCollisionBox(), luigi->GetCollisionBox())) {
-		std::cout << "box hit " << std::endl;
-	}*/
 	UpdateEnemies(deltaTime, e);
 	UpdatePOWBlock();
 }
 
-void GameScreenLevel1::SetLevelMap() {
-	int map[MAP_HEIGHT][MAP_WIDTH] = {
+void GameScreenLevel1::SetLevelMap(std::string path) {
+	std::ifstream inFile;
+	inFile.open(path);
+	int map[MAP_HEIGHT][MAP_WIDTH];
+
+	for (int i = 0; i < MAP_HEIGHT; i++){
+		for (int j = 0; i < MAP_WIDTH; j++) {
+			inFile >> map[i][j];
+			//std::cout << map[i][j];
+		}
+		
+	}
+	std::cout << map;
+	
+	/*int map[MAP_HEIGHT][MAP_WIDTH] = {
 		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 		{1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1},
@@ -90,7 +99,8 @@ void GameScreenLevel1::SetLevelMap() {
 		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 		{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
-	};
+	};*/
+
 	//clear any old maps
 	if (m_level_map != nullptr) {
 		delete m_level_map;

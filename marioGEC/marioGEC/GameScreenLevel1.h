@@ -28,7 +28,7 @@ class GameScreenLevel1 : GameScreen{
 		std::vector<CharacterKoopa*> m_enemies;
 
 		bool SetUpLevel();
-		void SetLevelMap();
+		void SetLevelMap(std::string path);
 		void UpdatePOWBlock();
 		void DoScreenshake();
 		void UpdateEnemies(float deltaTime, SDL_Event e);
