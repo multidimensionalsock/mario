@@ -38,8 +38,8 @@ bool GameScreenLevel1::SetUpLevel() {
 	m_pow_block = new PowBlock(m_renderer, m_level_map);
 	m_screenshake = false;
 	m_background_yPos = 0.0f;
-	CreateKoopa(Vector2D(150, 32), FACING_RIGHT, 0.02f);
-	CreateKoopa(Vector2D(325, 32), FACING_LEFT, 0.02f);
+	CreateKoopa(Vector2D(150, 32), FACING_RIGHT, 0.005f);
+	CreateKoopa(Vector2D(325, 32), FACING_LEFT, 0.005f);
 	//Vector2D position, FACING direction, float speed
 
 	m_background_texture = new Texture2D(m_renderer);

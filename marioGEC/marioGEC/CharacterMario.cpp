@@ -14,7 +14,7 @@ void CharacterMario::Update(float deltaTime, SDL_Event e) {
     //collision position variables
     int centralX_position = (int)(m_position.x + (m_texture->GetWidth() * 0.5)) / TILE_WIDTH;
     int foot_position = (int)(m_position.y + m_texture->GetHeight()) / TILE_HEIGHT;
-    if (m_current_level_map->GetTileAt(foot_position, centralX_position) == 0) {
+    if (m_current_level_map->GetTileAt(foot_position, centralX_position) <= 0) {
         AddGravity(deltaTime);
     }
     else {
@@ -23,8 +23,8 @@ void CharacterMario::Update(float deltaTime, SDL_Event e) {
 
 
     if (m_jumping) {
-        m_position.y -= m_jump_force * deltaTime;
-        m_jump_force -= JUMP_FORCE_DECREMENT * deltaTime;
+        m_position.y -= m_jump_force * 0.00055;
+        m_jump_force -= JUMP_FORCE_DECREMENT * 0.0001;
 
 
         if (m_jump_force <= 0.0f)
@@ -52,6 +52,7 @@ void CharacterMario::Update(float deltaTime, SDL_Event e) {
             if (m_can_jump) {
                 Jump();
             }
+            break;
         }
         break;
     case SDL_KEYUP:
@@ -66,7 +67,17 @@ void CharacterMario::Update(float deltaTime, SDL_Event e) {
         }
         break;
     }
-};
+}
+void CharacterMario::AddGravity(float deltaTime)
+{
+    if ((m_position.y + 64) <= SCREEN_HEIGHT) {
+        m_position.y += GRAVITY;
+    }
+    else {
+        m_can_jump = true;
+    }
+}
+;
 
 void CharacterMario::Render() {
     if (m_facing_direction == FACING_RIGHT) {
@@ -86,3 +97,4 @@ void CharacterMario::Jump() {
     }
     std::cout << m_jump_force << std::endl;
 }
+
