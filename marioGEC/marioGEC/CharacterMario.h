@@ -13,9 +13,7 @@ class CharacterMario : public Character{
 		void TakeDamage();
 		void Jump();
 		void Render() override;
-		void Update(float deltaTime, SDL_Event e) override;
-		bool GetAlive() { return m_alive; }
-		void SetAlive(bool isAlive) { m_alive = isAlive; }
+		virtual void Update(float deltaTime, SDL_Event e) override;
 		void AddGravity(float deltaTime) override;
 		Rect2D GetCollisionBox() { return Rect2D(m_position.x, m_position.y, (m_texture->GetWidth()), (m_texture->GetHeight())); }
 };
