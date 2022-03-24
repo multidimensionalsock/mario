@@ -34,6 +34,9 @@ class GameScreenLevel1 : GameScreen{
 		void DoScreenshake();
 		void UpdateEnemies(float deltaTime, SDL_Event e);
 		void CreateKoopa(Vector2D position, FACING direction, float speed);
+		void CreateCoin(Vector2D position, FACING direction, float speed);
+		void EnemyCreator();
+		int RandomNumber(int min, int max);
 
 	public:
 		GameScreenLevel1(SDL_Renderer* renderer);

@@ -38,9 +38,10 @@ bool GameScreenLevel1::SetUpLevel() {
 	m_pow_block = new PowBlock(m_renderer, m_level_map);
 	m_screenshake = false;
 	m_background_yPos = 0.0f;
-	CreateKoopa(Vector2D(150, 32), FACING_RIGHT, 0.005f);
-	CreateKoopa(Vector2D(325, 32), FACING_LEFT, 0.005f);
+	/*CreateKoopa(Vector2D(150, 32), FACING_RIGHT, 0.005f);
+	CreateKoopa(Vector2D(325, 32), FACING_LEFT, 0.005f);*/
 	//Vector2D position, FACING direction, float speed
+	EnemyCreator();
 
 	m_background_texture = new Texture2D(m_renderer);
 	if (!m_background_texture->LoadFromFile("Images/BackgroundMB.png")) {
@@ -163,4 +164,44 @@ void GameScreenLevel1::UpdateEnemies(float deltaTime, SDL_Event e){
 void GameScreenLevel1::CreateKoopa(Vector2D position, FACING direction, float speed){
 	koopa = new CharacterKoopa(m_renderer, "Images/Koopa.png", position, m_level_map, direction, speed);
 	m_enemies.push_back(koopa);
+}
+
+void GameScreenLevel1::CreateCoin(Vector2D position, FACING direction, float speed) {
+	coin = new Coin(m_renderer, "Images/Coin.png", position, m_level_map, speed);)
+}
+
+void GameScreenLevel1::EnemyCreator()
+{
+	Vector2D spawner1 = Vector2D(40, 330);
+	Vector2D spawner2 = Vector2D(0, 0);
+	Vector2D spawner3;
+	Vector2D spawner4; 
+	Vector2D position;
+	FACING direction,
+		//speed = 0.005f
+	int num = RandomNumber(0, 3);
+	switch (num) {
+	case 0:
+		position = spawner1;
+	case 1:
+		position = spawner2;
+	case 2:
+		position = spawner3;
+	case 3:
+		position = spawner4;
+	}
+	int enemy = RandomNumber(0, 10);
+	if (enemy < 7) {
+		CreateKoopa(position, direction, 0.005f);
+	}
+	else {
+		CreateCoin(position, direction, 0.005f;)
+	}
+}
+
+int GameScreenLevel1::RandomNumber(int min, int max)
+{
+	int num;
+	num = rand() % max + 1;
+	return num;
 }
