@@ -14,7 +14,7 @@ class Character;
 class LevelMap;
 class PowBlock;
 
-class GameScreenLevel1 : GameScreen{
+class GameScreenLevel1 : public GameScreen{
 	private:
 		Texture2D* m_background_texture;
 		CharacterMario* my_character;
