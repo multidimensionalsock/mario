@@ -21,7 +21,7 @@ void Render();
 
 int main(int argc, char* args[]) {
 	if (InitSDL()) {
-		game_screen_manager = new GameScreenManager(g_renderer, SCREEN_LEVEL1);
+		game_screen_manager = new GameScreenManager(g_renderer, SCREEN_INTRO);
 		//set time
 		g_old_time = SDL_GetTicks();
 	}

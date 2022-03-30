@@ -3,11 +3,8 @@
 
 GameScreenTitle::GameScreenTitle(SDL_Renderer* renderer) : GameScreen(renderer)
 {
-	m_background_yPos = 0.0f;
-	m_background_texture = new Texture2D(m_renderer);
-	if (!m_background_texture->LoadFromFile("Images/TitleScreen.png")) {
-		std::cout << "Failed to load background texture! " << std::endl;
-	}
+	m_renderer = renderer;
+	SetUpLevel();
 }
 
 GameScreenTitle::~GameScreenTitle()
@@ -22,4 +19,16 @@ void GameScreenTitle::Render()
 
 void GameScreenTitle::Update(float deltaTime, SDL_Event e)
 {
+}
+
+bool GameScreenTitle::SetUpLevel()
+{
+	m_background_yPos = 0.0f;
+
+	m_background_texture = new Texture2D(m_renderer);
+	if (!m_background_texture->LoadFromFile("Images/TitleScreen.png")) {
+		std::cout << "Failed to load background texture! " << std::endl;
+		return false;
+	}
+	return true;
 }
