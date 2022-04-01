@@ -7,6 +7,7 @@ GameScreenManager::GameScreenManager(SDL_Renderer* renderer, SCREENS startScreen
 	m_renderer = renderer;
 	m_current_screen = nullptr;
 	ChangeScreen(startScreen);
+	screen_input_check = startScreen;
 }
 
 GameScreenManager::~GameScreenManager() {
@@ -21,6 +22,16 @@ void GameScreenManager::Render() {
 
 void GameScreenManager::Update(float deltaTime, SDL_Event e) {
 	m_current_screen->Update(deltaTime, e);
+	if (screen_input_check == SCREEN_INTRO) {
+		switch (e.type) {
+		case SDL_KEYDOWN:
+			switch (e.key.keysym.sym) {
+			case SDLK_1:
+				ChangeScreen(SCREEN_LEVEL1);
+				break;
+			}
+		}
+	}
 }
 
 void GameScreenManager::ChangeScreen(SCREENS new_screen) {
@@ -33,14 +44,15 @@ void GameScreenManager::ChangeScreen(SCREENS new_screen) {
 		case SCREEN_INTRO:
 			tempScreen = new GameScreenTitle(m_renderer);
 			m_current_screen = (GameScreen*)tempScreen;
+			screen_input_check = SCREEN_INTRO;
 			tempScreen = nullptr;
 			break;
 		case SCREEN_LEVEL1:
 			tempScreen = new GameScreenLevel1(m_renderer);
 			m_current_screen = (GameScreen*)tempScreen;
+			screen_input_check = SCREEN_LEVEL1;
 			tempScreen = nullptr;
 			break;
-		
 		default:;
 	}
 }

@@ -9,6 +9,7 @@ class GameScreenManager{
 	private:
 		SDL_Renderer* m_renderer;
 		GameScreen* m_current_screen;
+		SCREENS screen_input_check;
 
 	public:
 		GameScreenManager(SDL_Renderer* renderer, SCREENS startScreen);
