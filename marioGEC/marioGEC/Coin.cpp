@@ -34,12 +34,12 @@ void Coin::Render() {
 	SDL_Rect destRect = { (int)(m_position.x), (int)(m_position.y), m_single_sprite_w, m_single_sprite_h }; //where its to be drawn
 	if (m_facing_direction == FACING_RIGHT) {
 		m_texture->Render(portion_of_sprite, destRect, SDL_FLIP_NONE);
+		m_moving_right = true;
 	}
 	else {
 		m_texture->Render(portion_of_sprite, destRect, SDL_FLIP_HORIZONTAL);
+		m_moving_left = true;
 	}
-
-
 }
 
 void Coin::Update(float deltaTime, SDL_Event e) {
@@ -52,7 +52,7 @@ void Coin::Update(float deltaTime, SDL_Event e) {
 		if (m_moving_right) {
 			m_position.x += m_movement_speed;
 		}
-		else {
+		else if (m_moving_left) {
 			m_position.x -= m_movement_speed;
 		}
 }

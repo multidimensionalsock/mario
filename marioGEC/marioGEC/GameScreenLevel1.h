@@ -30,6 +30,7 @@ class GameScreenLevel1 : public GameScreen{
 		float m_background_yPos;
 		std::vector<CharacterKoopa*> m_enemies;
 		std::vector<Coin*> m_coins;
+		int spawnerFrameCount;
 
 		bool SetUpLevel();
 		void SetLevelMap();
@@ -39,6 +40,7 @@ class GameScreenLevel1 : public GameScreen{
 		void UpdateCoins(float deltaTime, SDL_Event e);
 		void CreateKoopa(Vector2D position, FACING direction, float speed);
 		void CreateCoin(Vector2D position, FACING direction, float speed);
+		void EnemySpawner();
 
 	public:
 		GameScreenLevel1(SDL_Renderer* renderer);
