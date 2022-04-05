@@ -29,13 +29,16 @@ class GameScreenLevel1 : public GameScreen{
 		float m_wobble;
 		float m_background_yPos;
 		std::vector<CharacterKoopa*> m_enemies;
+		std::vector<Coin*> m_coins;
 
 		bool SetUpLevel();
 		void SetLevelMap();
 		void UpdatePOWBlock();
 		void DoScreenshake();
 		void UpdateEnemies(float deltaTime, SDL_Event e);
+		void UpdateCoins(float deltaTime, SDL_Event e);
 		void CreateKoopa(Vector2D position, FACING direction, float speed);
+		void CreateCoin(Vector2D position, FACING direction, float speed);
 
 	public:
 		GameScreenLevel1(SDL_Renderer* renderer);
