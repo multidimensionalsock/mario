@@ -39,7 +39,8 @@ bool GameScreenLevel1::SetUpLevel() {
 	m_screenshake = false;
 	m_background_yPos = 0.0f;
 	CreateKoopa(Vector2D(150, 32), FACING_RIGHT, 0.005f);
-	CreateKoopa(Vector2D(325, 32), FACING_LEFT, 0.005f);
+	//CreateKoopa(Vector2D(325, 32), FACING_LEFT, 0.005f);
+	coin = new Coin(m_renderer, "Images/Mario.png", Vector2D(325,32), m_level_map, FACING_LEFT, 0.002f);
 	//Vector2D position, FACING direction, float speed
 
 	m_background_texture = new Texture2D(m_renderer);
@@ -162,5 +163,6 @@ void GameScreenLevel1::UpdateEnemies(float deltaTime, SDL_Event e){
 
 void GameScreenLevel1::CreateKoopa(Vector2D position, FACING direction, float speed){
 	koopa = new CharacterKoopa(m_renderer, "Images/Koopa.png", position, m_level_map, direction, speed);
+	
 	m_enemies.push_back(koopa);
 }

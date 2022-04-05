@@ -65,34 +65,18 @@ void CharacterKoopa::Update(float deltaTime, SDL_Event e){
 		AddGravity(deltaTime);
 	}
 	Character::Update(deltaTime, e);
-	if (!m_injured) {
-		if (m_facing_direction == FACING_LEFT) {
-			m_moving_left = true;
-			m_moving_right = false;
-		}
-		else if (m_facing_direction == FACING_RIGHT) {
-			m_moving_right = true;
-			m_moving_left = false;
-		}
+	if (m_facing_direction == FACING_LEFT) {
+		m_moving_left = true;
+		m_moving_right = false;
+	}
+	else if (m_facing_direction == FACING_RIGHT) {
+		m_moving_right = true;
+		m_moving_left = false;
+	}
+	if (m_moving_right) {
+		m_position.x += m_movement_speed;
 	}
 	else {
-		//cant move while injured
-		m_moving_right = false;
-		m_moving_left = false;
-
-		m_injured_time -= deltaTime;
-
-		if (m_injured_time <= 0.0) {
-			FlipRightWayUp();
-			m_injured_time == 2.0f;
-		}
-	}
-	if (!m_injured) {
-		if (m_moving_right) {
-			m_position.x += m_movement_speed;
-		}
-		else {
-			m_position.x -= m_movement_speed;
-		}
+		m_position.x -= m_movement_speed;
 	}
 }

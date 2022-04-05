@@ -8,6 +8,7 @@
 #include "CharacterKoopa.h"
 #include "CharacterMario.h"
 #include "CharacterLuigi.h"
+#include "Coin.h"
 
 class Texture2D; //forward declaration
 class Character;
@@ -20,6 +21,7 @@ class GameScreenLevel1 : public GameScreen{
 		CharacterMario* my_character;
 		CharacterLuigi* luigi;
 		CharacterKoopa* koopa;
+		Coin* coin;
 		LevelMap* m_level_map;
 		PowBlock* m_pow_block;
 		bool m_screenshake;

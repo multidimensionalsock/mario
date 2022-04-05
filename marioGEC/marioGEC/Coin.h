@@ -2,27 +2,21 @@
 #include "Character.h"
 
 class Coin: public Character{
-	SDL_Renderer* m_renderer;
-	Vector2D m_position;
-	Texture2D* m_texture;
-	bool m_moving_left;
-	bool m_moving_right;
-	const bool m_jumping = false;
-	const bool m_can_jump = false;
-	const float m_jump_force = 0.0f;
-	float m_collision_radius;
-	FACING m_facing_direction;
-	LevelMap* m_current_level_map;
-	float m_movement_speed;
+private:
+	float m_single_sprite_w;
+	float m_single_sprite_h;
 	bool m_alive;
 
-	void MoveLeft(float deltaTime);
-	void MoveRight(float deltaTime);
-	void AddGravity(float deltaTime);
-	void Jump();
+	void FlipRightWayUp();
 
-public: 
-	Coin(SDL_Renderer* renderer, std::string imagePath, Vector2D start_position, LevelMap* map, FACING direction);
+public:
+	Coin(SDL_Renderer* renderer, std::string imagePath, Vector2D start_position, LevelMap* map, FACING start_facing, float movement_speed);
 	~Coin();
+	void Jump();
+	void Render() override;
+	void Update(float deltaTime, SDL_Event e) override;
+	bool GetAlive() { return m_alive; }
+	void SetAlive(bool isAlive) { m_alive = isAlive; }
+	Rect2D GetCollisionBox() { return Rect2D(m_position.x, m_position.y, (m_texture->GetWidth()), (m_texture->GetHeight())); }
 };
 
