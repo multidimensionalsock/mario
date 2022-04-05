@@ -25,6 +25,7 @@ void GameScreenLevel1::Render() {
 	my_character->Render();
 	luigi->Render();
 	m_pow_block->Render();
+	coin->Render();
 	for (int i = 0; i < m_enemies.size(); i++) {
 		m_enemies[i]->Render();
 	}
@@ -40,7 +41,7 @@ bool GameScreenLevel1::SetUpLevel() {
 	m_background_yPos = 0.0f;
 	CreateKoopa(Vector2D(150, 32), FACING_RIGHT, 0.005f);
 	//CreateKoopa(Vector2D(325, 32), FACING_LEFT, 0.005f);
-	coin = new Coin(m_renderer, "Images/Mario.png", Vector2D(325,32), m_level_map, FACING_LEFT, 0.002f);
+	coin = new Coin(m_renderer, "Images/Coin.png", Vector2D(325,32), m_level_map, FACING_LEFT, 0.002f);
 	//Vector2D position, FACING direction, float speed
 
 	m_background_texture = new Texture2D(m_renderer);
@@ -67,6 +68,7 @@ void GameScreenLevel1::Update(float deltaTime, SDL_Event e) {
 	//update character
 	my_character->Update(deltaTime, e);
 	luigi->Update(deltaTime, e);
+	coin->Update(deltaTime, e);
 	UpdateEnemies(deltaTime, e);
 	UpdatePOWBlock();
 }

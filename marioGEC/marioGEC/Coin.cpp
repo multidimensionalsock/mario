@@ -5,6 +5,7 @@
 
 
 Coin::Coin(SDL_Renderer* renderer, std::string imagePath, Vector2D start_position, LevelMap* map, FACING start_facing, float movement_speed) : Character(renderer, imagePath, start_position, map) {
+	m_renderer = renderer;
 	m_facing_direction = start_facing;
 	m_movement_speed = movement_speed;
 	m_position = start_position;
