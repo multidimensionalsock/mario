@@ -4,7 +4,8 @@
 #include "LevelMap.h"
 
 CharacterMario::CharacterMario(SDL_Renderer* renderer, std::string imagePath, Vector2D start_position, LevelMap* map) : Character(renderer, imagePath, start_position, map) {
-
+    mariocoins = 0;
+    m_alive = true;
 }
 CharacterMario::~CharacterMario() {
     m_renderer = nullptr;

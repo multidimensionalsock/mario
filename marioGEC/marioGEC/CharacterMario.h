@@ -8,6 +8,8 @@ class CharacterMario : public Character{
 		bool m_alive;
 
 	public:
+		int mariocoins;
+
 		CharacterMario(SDL_Renderer* renderer, std::string imagePath, Vector2D start_position, LevelMap* map);
 		~CharacterMario();
 		void TakeDamage();

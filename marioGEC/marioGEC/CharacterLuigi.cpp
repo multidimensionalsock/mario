@@ -6,7 +6,8 @@
 #include "LevelMap.h"
 
 CharacterLuigi::CharacterLuigi(SDL_Renderer* renderer, std::string imagePath, Vector2D start_position, LevelMap* map) : Character(renderer, imagePath, start_position, map) {
-
+    luigicoins = 0;
+    m_alive = true;
 }
 CharacterLuigi::~CharacterLuigi() {
     m_renderer = nullptr;

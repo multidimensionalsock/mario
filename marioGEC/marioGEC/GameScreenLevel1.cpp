@@ -24,8 +24,12 @@ GameScreenLevel1::~GameScreenLevel1() {
 void GameScreenLevel1::Render() {
 	//draw background
 	m_background_texture->Render(Vector2D(0, m_background_yPos), SDL_FLIP_NONE);
-	my_character->Render();
-	luigi->Render();
+	if (my_character->GetAlive()) {
+		my_character->Render();
+	}
+	if (luigi->GetAlive()) {
+		luigi->Render();
+	}
 	m_pow_block->Render();
 	for (int i = 0; i < m_coins.size(); i++) {
 		m_coins[i]->Render();
@@ -72,8 +76,12 @@ void GameScreenLevel1::Update(float deltaTime, SDL_Event e) {
 		EnemySpawner();
 		spawnerFrameCount = 0;
 	}
-	my_character->Update(deltaTime, e);
-	luigi->Update(deltaTime, e);
+	if (my_character->GetAlive()) {
+		my_character->Update(deltaTime, e);
+	}
+	if (luigi->GetAlive()) {
+		luigi->Update(deltaTime, e);
+	}
 	UpdateCoins(deltaTime, e);
 	UpdateEnemies(deltaTime, e);
 	UpdatePOWBlock();
@@ -149,29 +157,79 @@ void GameScreenLevel1::UpdateEnemies(float deltaTime, SDL_Event e){
 
 			m_enemies[i]->Update(deltaTime, e);
 
-			//check if enemy collides with player
-			if ((m_enemies[i]->GetPosition().y > 300.0f || m_enemies[i]->GetPosition().y <= 64.0f) && (m_enemies[i]->
-				GetPosition().x < 64.0f || m_enemies[i]->GetPosition().x > SCREEN_WIDTH - 96.0f)){
-				//ignore collisions if behind pipe
-			}
-			else{
-				if (Collisions::Instance()->Circle(m_enemies[i], my_character)){
-					if (m_enemies[i]->GetInjured()){
-						m_enemies[i]->SetAlive(false);
-					}
-					else{
+			if (Collisions::Instance()->Box(m_enemies[i]->GetCollisionBox(), my_character->GetCollisionBox())) {
+				if (m_enemies[i]->GetInjured()) {
+					m_enemies[i]->SetAlive(false);
+				}
+				else if (!m_enemies[i]->GetInjured() && my_character->Is_Jumping()) {
+					m_enemies[i]->SetInjured(true);
+				}
+				else {
+					if (my_character->mariocoins == 0) {
 						my_character->SetAlive(false);
 					}
-				}
-				if (Collisions::Instance()->Circle(m_enemies[i], luigi)) {
-					if (m_enemies[i]->GetInjured()) {
-						m_enemies[i]->SetAlive(false);
-					}
 					else {
-						luigi->SetAlive(false);
+						for (int i = 0; i < my_character->mariocoins; i++) {
+							int facing_random = rand() % 1;
+							int speed_random = (rand() % 100 + 1) / 100;
+							if (facing_random == 0) {
+								CreateCoin(my_character->GetPosition(), FACING_RIGHT, speed_random);
+							}
+							else if (facing_random == 1) {
+								CreateCoin(my_character->GetPosition(), FACING_LEFT, speed_random);
+							}
+						}
 					}
 				}
 			}
+			if (Collisions::Instance()->Box(m_enemies[i]->GetCollisionBox(), luigi->GetCollisionBox())) {
+				if (m_enemies[i]->GetInjured()) {
+					m_enemies[i]->SetAlive(false);
+				}
+				else if (!m_enemies[i]->GetInjured() && luigi->Is_Jumping()) {
+					m_enemies[i]->SetInjured(true);
+				}
+				else {
+					if (luigi->luigicoins == 0) {
+						luigi->SetAlive(false);
+					}
+					else {
+						for (int i = 0; i < luigi->luigicoins; i++) {
+							int facing_random = rand() % 1;
+							int speed_random = (rand() % 100 + 1) / 100;
+							if (facing_random == 0) {
+								CreateCoin(luigi->GetPosition(), FACING_RIGHT, speed_random);
+							}
+							else if (facing_random == 1) {
+								CreateCoin(luigi->GetPosition(), FACING_LEFT, speed_random);
+							}
+						}
+					}
+				}
+			}
+
+			////check if enemy collides with player
+			//if ((m_enemies[i]->GetPosition().y > 300.0f || m_enemies[i]->GetPosition().y <= 64.0f) && (m_enemies[i]->
+			//	GetPosition().x < 64.0f || m_enemies[i]->GetPosition().x > SCREEN_WIDTH - 96.0f)){
+			//	//ignore collisions if behind pipe
+			//}
+			//else{
+			//	if (Collisions::Instance()->Circle(m_enemies[i], my_character)){
+			//		if (m_enemies[i]->GetInjured()){
+			//			m_enemies[i]->SetAlive(false);
+			//		}
+			//		else{
+			//			my_character->SetAlive(false);
+			//		}
+			//	}
+			//	if (Collisions::Instance()->Circle(m_enemies[i], luigi)) {
+			//		if (m_enemies[i]->GetInjured()) {
+			//			m_enemies[i]->SetAlive(false);
+			//		}
+			//		else {
+			//			luigi->SetAlive(false);
+			//		}
+			//	}
 
 			if (!m_enemies[i]->GetAlive()){
 				enemyIndexToDelete = i; //schedule dead enemies deletion
