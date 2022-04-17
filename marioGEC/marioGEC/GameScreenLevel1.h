@@ -18,7 +18,7 @@ class PowBlock;
 class GameScreenLevel1 : public GameScreen{
 	private:
 		Texture2D* m_background_texture;
-		CharacterMario* my_character;
+		CharacterMario* mario;
 		CharacterLuigi* luigi;
 		CharacterKoopa* koopa;
 		Coin* coin;
@@ -41,6 +41,7 @@ class GameScreenLevel1 : public GameScreen{
 		void CreateKoopa(Vector2D position, FACING direction, float speed);
 		void CreateCoin(Vector2D position, FACING direction, float speed);
 		void EnemySpawner();
+		void CoinSpawner();
 
 	public:
 		GameScreenLevel1(SDL_Renderer* renderer);

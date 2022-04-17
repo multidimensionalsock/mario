@@ -68,6 +68,13 @@ void CharacterMario::Update(float deltaTime, SDL_Event e) {
         }
         break;
     }
+    if (m_injured) {
+        m_injured_time -= deltaTime;
+
+        if (m_injured_time <= 0.0) {
+            m_injured = false;
+        }
+    }
 }
 void CharacterMario::AddGravity(float deltaTime)
 {

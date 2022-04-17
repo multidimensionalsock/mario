@@ -6,7 +6,6 @@ private:
 	float m_single_sprite_w;
 	float m_single_sprite_h;
 	bool m_injured;
-	float m_injured_time;
 	bool m_alive;
 
 	void FlipRightWayUp();

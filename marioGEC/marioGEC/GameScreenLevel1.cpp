@@ -13,8 +13,8 @@ GameScreenLevel1::GameScreenLevel1(SDL_Renderer* renderer) : GameScreen(renderer
 
 GameScreenLevel1::~GameScreenLevel1() {
 	m_background_texture = nullptr;
-	delete my_character;
-	my_character = nullptr;
+	delete mario;
+	mario = nullptr;
 	m_level_map = nullptr;
 	m_pow_block = nullptr;
 
@@ -24,8 +24,8 @@ GameScreenLevel1::~GameScreenLevel1() {
 void GameScreenLevel1::Render() {
 	//draw background
 	m_background_texture->Render(Vector2D(0, m_background_yPos), SDL_FLIP_NONE);
-	if (my_character->GetAlive()) {
-		my_character->Render();
+	if (mario->GetAlive()) {
+		mario->Render();
 	}
 	if (luigi->GetAlive()) {
 		luigi->Render();
@@ -42,7 +42,7 @@ void GameScreenLevel1::Render() {
 bool GameScreenLevel1::SetUpLevel() {
 	SetLevelMap();
 
-	my_character = new CharacterMario(m_renderer, "Images/Mario.png", Vector2D(40, 330),m_level_map);
+	mario = new CharacterMario(m_renderer, "Images/Mario.png", Vector2D(40, 330),m_level_map);
 	luigi = new CharacterLuigi(m_renderer, "Images/Luigi.png", Vector2D(140, 330), m_level_map);
 	m_pow_block = new PowBlock(m_renderer, m_level_map);
 	m_screenshake = false;
@@ -76,8 +76,8 @@ void GameScreenLevel1::Update(float deltaTime, SDL_Event e) {
 		EnemySpawner();
 		spawnerFrameCount = 0;
 	}
-	if (my_character->GetAlive()) {
-		my_character->Update(deltaTime, e);
+	if (mario->GetAlive()) {
+		mario->Update(deltaTime, e);
 	}
 	if (luigi->GetAlive()) {
 		luigi->Update(deltaTime, e);
@@ -112,12 +112,12 @@ void GameScreenLevel1::SetLevelMap() {
 }
 
 void GameScreenLevel1::UpdatePOWBlock() {
-	if (Collisions::Instance()->Box(my_character->GetCollisionBox(), m_pow_block->GetCollisionsBox())) {
+	if (Collisions::Instance()->Box(mario->GetCollisionBox(), m_pow_block->GetCollisionsBox())) {
 		if (m_pow_block->IsAvailable()) {
-			if (my_character->Is_Jumping()) {
+			if (mario->Is_Jumping()) {
 				DoScreenshake();
 				m_pow_block->TakeHit();
-				my_character->CancelJump();
+				mario->CancelJump();
 			}
 		}
 	}
@@ -157,28 +157,23 @@ void GameScreenLevel1::UpdateEnemies(float deltaTime, SDL_Event e){
 
 			m_enemies[i]->Update(deltaTime, e);
 
-			if (Collisions::Instance()->Box(m_enemies[i]->GetCollisionBox(), my_character->GetCollisionBox())) {
+			if (Collisions::Instance()->Box(m_enemies[i]->GetCollisionBox(), mario->GetCollisionBox())) {
 				if (m_enemies[i]->GetInjured()) {
 					m_enemies[i]->SetAlive(false);
 				}
-				else if (!m_enemies[i]->GetInjured() && my_character->Is_Jumping()) {
+				else if (!m_enemies[i]->GetInjured() && mario->Is_Jumping()) {
 					m_enemies[i]->SetInjured(true);
 				}
 				else {
-					if (my_character->mariocoins == 0) {
-						my_character->SetAlive(false);
+					if (mario->mariocoins == 0) {
+						mario->SetAlive(false);
 					}
 					else {
-						for (int i = 0; i < my_character->mariocoins; i++) {
-							int facing_random = rand() % 1;
-							int speed_random = (rand() % 100 + 1) / 100;
-							if (facing_random == 0) {
-								CreateCoin(my_character->GetPosition(), FACING_RIGHT, speed_random);
-							}
-							else if (facing_random == 1) {
-								CreateCoin(my_character->GetPosition(), FACING_LEFT, speed_random);
-							}
+						mario->SetInjured(true);
+						for (int i = 0; i < mario->mariocoins; i++) {
+							CoinSpawner();
 						}
+						mario->mariocoins = 0;
 					}
 				}
 			}
@@ -194,16 +189,26 @@ void GameScreenLevel1::UpdateEnemies(float deltaTime, SDL_Event e){
 						luigi->SetAlive(false);
 					}
 					else {
+						luigi->SetInjured(true);
 						for (int i = 0; i < luigi->luigicoins; i++) {
-							int facing_random = rand() % 1;
+							CoinSpawner();
+							/*int facing_random = rand() % 1;
 							int speed_random = (rand() % 100 + 1) / 100;
 							if (facing_random == 0) {
-								CreateCoin(luigi->GetPosition(), FACING_RIGHT, speed_random);
+								Vector2D position;
+								position.x = luigi->GetPosition().x + luigi->GetCollisionRadius();
+								position.y = luigi->GetPosition().y;
+								CreateCoin(position, FACING_RIGHT, speed_random);
 							}
 							else if (facing_random == 1) {
-								CreateCoin(luigi->GetPosition(), FACING_LEFT, speed_random);
-							}
+								Vector2D position;
+								position.x = luigi->GetPosition().x - luigi->GetCollisionRadius();
+								position.y = luigi->GetPosition().y;
+								CreateCoin(position, FACING_RIGHT, speed_random);
+								CreateCoin(luigi->GetPosition(), FACING_LEFT, speed_random);*/
+							
 						}
+						luigi->luigicoins = 0;
 					}
 				}
 			}
@@ -214,12 +219,12 @@ void GameScreenLevel1::UpdateEnemies(float deltaTime, SDL_Event e){
 			//	//ignore collisions if behind pipe
 			//}
 			//else{
-			//	if (Collisions::Instance()->Circle(m_enemies[i], my_character)){
+			//	if (Collisions::Instance()->Circle(m_enemies[i], mario)){
 			//		if (m_enemies[i]->GetInjured()){
 			//			m_enemies[i]->SetAlive(false);
 			//		}
 			//		else{
-			//			my_character->SetAlive(false);
+			//			mario->SetAlive(false);
 			//		}
 			//	}
 			//	if (Collisions::Instance()->Circle(m_enemies[i], luigi)) {
@@ -257,17 +262,22 @@ void GameScreenLevel1::UpdateCoins(float deltaTime, SDL_Event e) {
 			}
 			m_coins[i]->Update(deltaTime, e);
 
-			if (Collisions::Instance()->Circle(m_coins[i], my_character)) {	
-				m_coins[i]->SetAlive(false);
+			if (mario->GetInjured() == false) {
+				if (Collisions::Instance()->Circle(m_coins[i], mario)) {
+					m_coins[i]->SetAlive(false);
+					mario->mariocoins++;
+				}
 			}
-			if (Collisions::Instance()->Circle(m_coins[i], luigi)) {
-				m_coins[i]->SetAlive(false);
+			if (luigi->GetInjured() == false) {
+				if (Collisions::Instance()->Circle(m_coins[i], luigi)) {
+					m_coins[i]->SetAlive(false);
+					luigi->luigicoins++;
+				}
 			}
 			if (!m_coins[i]->GetAlive()) {
 				enemyIndexToDelete = i; //schedule dead enemies deletion
 			}
 		}
-
 		if (enemyIndexToDelete != -1) {
 			m_coins.erase(m_coins.begin() + enemyIndexToDelete); // remove dead enemies
 		}
@@ -307,6 +317,19 @@ void GameScreenLevel1::EnemySpawner(){
 		else {
 			CreateKoopa(Vector2D(480, 30), FACING_LEFT, 0.02f);
 		}
+		break;
+	}
+}
+
+void GameScreenLevel1::CoinSpawner() {
+	int spawner = std::rand() % 2;
+
+	switch (spawner) {
+	case 0:
+		CreateCoin(Vector2D(32, 30), FACING_RIGHT, 0.02f);
+		break;
+	case 1:
+		CreateCoin(Vector2D(480, 30), FACING_LEFT, 0.02f);
 		break;
 	}
 }

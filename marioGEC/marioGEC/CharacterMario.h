@@ -6,6 +6,7 @@ class CharacterMario : public Character{
 		float m_single_sprite_w;
 		float m_single_sprite_h;
 		bool m_alive;
+		float m_injured_time;
 
 	public:
 		int mariocoins;
