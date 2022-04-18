@@ -6,6 +6,8 @@
 #include "LevelMap.h"
 
 CharacterLuigi::CharacterLuigi(SDL_Renderer* renderer, std::string imagePath, Vector2D start_position, LevelMap* map) : Character(renderer, imagePath, start_position, map) {
+    luigicoins = 0;
+    m_alive = true;
 
 }
 CharacterLuigi::~CharacterLuigi() {
@@ -68,6 +70,13 @@ void CharacterLuigi::Update(float deltaTime, SDL_Event e) {
             break;
         }
         break;
+    }
+    if (m_injured) {
+        m_injured_time -= deltaTime;
+
+        if (m_injured_time <= 0.0) {
+            m_injured = false;
+        }
     }
 }
 void CharacterLuigi::AddGravity(float deltaTime)

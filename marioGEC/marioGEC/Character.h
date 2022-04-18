@@ -26,6 +26,8 @@ class Character{
 		LevelMap* m_current_level_map;
 		float m_movement_speed;
 		bool m_alive;
+		float m_injured_time;
+		bool m_injured;
 
 		virtual void MoveLeft(float deltaTime);
 		virtual void MoveRight(float deltaTime);
@@ -46,6 +48,8 @@ class Character{
 		void CancelJump() { m_jumping = false; }
 		bool GetAlive() { return m_alive; }
 		void SetAlive(bool isAlive) { m_alive = isAlive;  }
+		bool GetInjured() { return m_injured; }
+		void SetInjured(bool Injured) { m_injured = Injured; }
 };
 
 #endif

@@ -14,6 +14,8 @@ Character::Character(SDL_Renderer* renderer, std::string imagePath, Vector2D sta
     m_current_level_map = map;
     m_movement_speed = 75.0f;
     m_alive = true;
+    m_injured_time = 1000.0f;
+    m_injured = false;
 
 	if (!m_texture->LoadFromFile(imagePath)) {
 		std::cout << "Failed to load background texture! " << std::endl;
