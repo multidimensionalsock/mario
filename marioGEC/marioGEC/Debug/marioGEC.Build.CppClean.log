@@ -6,6 +6,7 @@ c:\users\b019105l\documents\github\mario\mariogec\mariogec\debug\powblock.obj
 c:\users\b019105l\documents\github\mario\mariogec\mariogec\debug\levelmap.obj
 c:\users\b019105l\documents\github\mario\mariogec\mariogec\debug\gamescreentitle.obj
 c:\users\b019105l\documents\github\mario\mariogec\mariogec\debug\gamescreenmanager.obj
+c:\users\b019105l\documents\github\mario\mariogec\mariogec\debug\gamescreenlevel1.obj
 c:\users\b019105l\documents\github\mario\mariogec\mariogec\debug\gamescreen.obj
 c:\users\b019105l\documents\github\mario\mariogec\mariogec\debug\collisions.obj
 c:\users\b019105l\documents\github\mario\mariogec\mariogec\debug\coin.obj
@@ -13,7 +14,7 @@ c:\users\b019105l\documents\github\mario\mariogec\mariogec\debug\charactermario.
 c:\users\b019105l\documents\github\mario\mariogec\mariogec\debug\characterluigi.obj
 c:\users\b019105l\documents\github\mario\mariogec\mariogec\debug\characterkoopa.obj
 c:\users\b019105l\documents\github\mario\mariogec\mariogec\debug\character.obj
-c:\users\b019105l\documents\github\mario\mariogec\mariogec\debug\gamescreenlevel1.obj
+c:\users\b019105l\documents\github\mario\mariogec\mariogec\debug\gamescreendeath.obj
 c:\users\b019105l\documents\github\mario\mariogec\debug\mariogec.exe
 c:\users\b019105l\documents\github\mario\mariogec\debug\mariogec.ilk
 c:\users\b019105l\documents\github\mario\mariogec\debug\mariogec.pdb

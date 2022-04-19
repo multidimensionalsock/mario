@@ -158,6 +158,7 @@ void GameScreenLevel1::UpdateEnemies(float deltaTime, SDL_Event e){
 			m_enemies[i]->Update(deltaTime, e);
 
 			if (Collisions::Instance()->Box(m_enemies[i]->GetCollisionBox(), mario->GetCollisionBox())) {
+				std::cout << "koopa collision mario";
 				if (m_enemies[i]->GetInjured()) {
 					m_enemies[i]->SetAlive(false);
 				}
@@ -167,6 +168,7 @@ void GameScreenLevel1::UpdateEnemies(float deltaTime, SDL_Event e){
 				else {
 					if (mario->mariocoins == 0) {
 						mario->SetAlive(false);
+						mario_death = true;
 					}
 					else {
 						mario->SetInjured(true);
@@ -187,26 +189,12 @@ void GameScreenLevel1::UpdateEnemies(float deltaTime, SDL_Event e){
 				else {
 					if (luigi->luigicoins == 0) {
 						luigi->SetAlive(false);
+						luigi_death = true;
 					}
 					else {
 						luigi->SetInjured(true);
 						for (int i = 0; i < luigi->luigicoins; i++) {
 							CoinSpawner();
-							/*int facing_random = rand() % 1;
-							int speed_random = (rand() % 100 + 1) / 100;
-							if (facing_random == 0) {
-								Vector2D position;
-								position.x = luigi->GetPosition().x + luigi->GetCollisionRadius();
-								position.y = luigi->GetPosition().y;
-								CreateCoin(position, FACING_RIGHT, speed_random);
-							}
-							else if (facing_random == 1) {
-								Vector2D position;
-								position.x = luigi->GetPosition().x - luigi->GetCollisionRadius();
-								position.y = luigi->GetPosition().y;
-								CreateCoin(position, FACING_RIGHT, speed_random);
-								CreateCoin(luigi->GetPosition(), FACING_LEFT, speed_random);*/
-							
 						}
 						luigi->luigicoins = 0;
 					}
@@ -322,14 +310,32 @@ void GameScreenLevel1::EnemySpawner(){
 }
 
 void GameScreenLevel1::CoinSpawner() {
-	int spawner = std::rand() % 2;
+	int spawner = std::rand() % 3;
+	Vector2D coinPos;
 
 	switch (spawner) {
 	case 0:
-		CreateCoin(Vector2D(32, 30), FACING_RIGHT, 0.02f);
+		//coin from top
+		coinPos.x = rand() % 513;
+		coinPos.y = 0;
+		//if x is bigger or equal to centre pick direction based on
+		if (coinPos.x > 261) {
+			CreateCoin(coinPos, FACING_RIGHT , 0.02f);
+		}
+		else {
+			CreateCoin(coinPos, FACING_LEFT, 0.02f);
+		}
 		break;
 	case 1:
-		CreateCoin(Vector2D(480, 30), FACING_LEFT, 0.02f);
+		//coin from left
+		coinPos.x = 0;
+		coinPos.y = rand() % 385;
+		CreateCoin(coinPos, FACING_RIGHT, 0.02f);
 		break;
+	case 2:
+		//coin from right
+		coinPos.x = 512;
+		coinPos.y = rand() % 385;
+		CreateCoin(coinPos, FACING_LEFT, 0.02f);
 	}
 }

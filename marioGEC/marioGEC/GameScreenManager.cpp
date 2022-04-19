@@ -2,6 +2,7 @@
 #include "GameScreen.h"
 #include "GameScreenLevel1.h"
 #include "GameScreenTitle.h"
+#include "GameScreenDeath.h"
 
 GameScreenManager::GameScreenManager(SDL_Renderer* renderer, SCREENS startScreen) {
 	m_renderer = renderer;
@@ -32,6 +33,15 @@ void GameScreenManager::Update(float deltaTime, SDL_Event e) {
 			}
 		}
 	}
+	else if (screen_input_check == SCREEN_DEATH) {
+		switch (e.type) {
+		case SDL_KEYDOWN:
+			ChangeScreen(SCREEN_INTRO);
+		}
+	}
+	if (m_current_screen->marioDeathGet() == true && m_current_screen->luigiDeathGet() == true) {
+		ChangeScreen(SCREEN_DEATH);
+	}
 }
 
 void GameScreenManager::ChangeScreen(SCREENS new_screen) {
@@ -51,6 +61,12 @@ void GameScreenManager::ChangeScreen(SCREENS new_screen) {
 			tempScreen = new GameScreenLevel1(m_renderer);
 			m_current_screen = (GameScreen*)tempScreen;
 			screen_input_check = SCREEN_LEVEL1;
+			tempScreen = nullptr;
+			break;
+		case SCREEN_DEATH:
+			tempScreen = new GameScreenDeath(m_renderer);
+			m_current_screen = (GameScreen*)tempScreen;
+			screen_input_check = SCREEN_DEATH;
 			tempScreen = nullptr;
 			break;
 		default:;
