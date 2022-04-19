@@ -157,46 +157,50 @@ void GameScreenLevel1::UpdateEnemies(float deltaTime, SDL_Event e){
 
 			m_enemies[i]->Update(deltaTime, e);
 
-			if (Collisions::Instance()->Box(m_enemies[i]->GetCollisionBox(), mario->GetCollisionBox())) {
-				std::cout << "koopa collision mario";
-				if (m_enemies[i]->GetInjured()) {
-					m_enemies[i]->SetAlive(false);
-				}
-				else if (!m_enemies[i]->GetInjured() && mario->Is_Jumping()) {
-					m_enemies[i]->SetInjured(true);
-				}
-				else {
-					if (mario->mariocoins == 0) {
-						mario->SetAlive(false);
-						mario_death = true;
+			if (mario->GetAlive() != false) {
+				if (Collisions::Instance()->Box(m_enemies[i]->GetCollisionBox(), mario->GetCollisionBox())) {
+					std::cout << "koopa collision mario";
+					if (m_enemies[i]->GetInjured()) {
+						m_enemies[i]->SetAlive(false);
+					}
+					else if (!m_enemies[i]->GetInjured() && mario->Is_Jumping()) {
+						m_enemies[i]->SetInjured(true);
 					}
 					else {
-						mario->SetInjured(true);
-						for (int i = 0; i < mario->mariocoins; i++) {
-							CoinSpawner();
+						if (mario->mariocoins == 0) {
+							mario->SetAlive(false);
+							mario_death = true;
 						}
-						mario->mariocoins = 0;
+						else {
+							mario->SetInjured(true);
+							for (int i = 0; i < mario->mariocoins; i++) {
+								CoinSpawner();
+							}
+							mario->mariocoins = 0;
+						}
 					}
 				}
 			}
-			if (Collisions::Instance()->Box(m_enemies[i]->GetCollisionBox(), luigi->GetCollisionBox())) {
-				if (m_enemies[i]->GetInjured()) {
-					m_enemies[i]->SetAlive(false);
-				}
-				else if (!m_enemies[i]->GetInjured() && luigi->Is_Jumping()) {
-					m_enemies[i]->SetInjured(true);
-				}
-				else {
-					if (luigi->luigicoins == 0) {
-						luigi->SetAlive(false);
-						luigi_death = true;
+			if (luigi->GetAlive() != false) {
+				if (Collisions::Instance()->Box(m_enemies[i]->GetCollisionBox(), luigi->GetCollisionBox())) {
+					if (m_enemies[i]->GetInjured()) {
+						m_enemies[i]->SetAlive(false);
+					}
+					else if (!m_enemies[i]->GetInjured() && luigi->Is_Jumping()) {
+						m_enemies[i]->SetInjured(true);
 					}
 					else {
-						luigi->SetInjured(true);
-						for (int i = 0; i < luigi->luigicoins; i++) {
-							CoinSpawner();
+						if (luigi->luigicoins == 0) {
+							luigi->SetAlive(false);
+							luigi_death = true;
 						}
-						luigi->luigicoins = 0;
+						else {
+							luigi->SetInjured(true);
+							for (int i = 0; i < luigi->luigicoins; i++) {
+								CoinSpawner();
+							}
+							luigi->luigicoins = 0;
+						}
 					}
 				}
 			}
@@ -250,13 +254,13 @@ void GameScreenLevel1::UpdateCoins(float deltaTime, SDL_Event e) {
 			}
 			m_coins[i]->Update(deltaTime, e);
 
-			if (mario->GetInjured() == false) {
+			if (mario->GetInjured() == false && mario->GetAlive() == true) {
 				if (Collisions::Instance()->Circle(m_coins[i], mario)) {
 					m_coins[i]->SetAlive(false);
 					mario->mariocoins++;
 				}
 			}
-			if (luigi->GetInjured() == false) {
+			if (luigi->GetInjured() == false && luigi->GetAlive() == true) {
 				if (Collisions::Instance()->Circle(m_coins[i], luigi)) {
 					m_coins[i]->SetAlive(false);
 					luigi->luigicoins++;
