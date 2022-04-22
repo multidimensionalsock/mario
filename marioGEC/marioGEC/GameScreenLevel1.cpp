@@ -1,5 +1,6 @@
 #include "GameScreenLevel1.h"
 #include <iostream>
+#include <fstream>
 #include "Texture2D.h"
 #include "Character.h"
 #include "LevelMap.h"
@@ -88,21 +89,17 @@ void GameScreenLevel1::Update(float deltaTime, SDL_Event e) {
 }
 
 void GameScreenLevel1::SetLevelMap() {
-	int map[MAP_HEIGHT][MAP_WIDTH] = {
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-		{1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-		{0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0},
-		{1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-		{0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0},
-		{1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-		{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
-	};
+	int map[MAP_HEIGHT][MAP_WIDTH];
+	std::ifstream inFile;
+	inFile.open("Levels/Level1.txt");
+
+	for (int i = 0; i < MAP_HEIGHT; i++) {
+		for (int j = 0; j < MAP_WIDTH; j++) {
+			int temp = 0;
+			inFile >> temp;
+			map[i][j] = temp;
+		}
+	}
 	//clear any old maps
 	if (m_level_map != nullptr) {
 		delete m_level_map;
@@ -343,3 +340,4 @@ void GameScreenLevel1::CoinSpawner() {
 		CreateCoin(coinPos, FACING_LEFT, 0.02f);
 	}
 }
+
