@@ -265,24 +265,35 @@ void GameScreenLevel2::CreateCoin(Vector2D position, FACING direction, float spe
 }
 
 void GameScreenLevel2::EnemySpawner() {
-	int spawner = std::rand() % 2;
+	int spawner = std::rand() % 3;
 	int random = std::rand() % 100;
 
 	switch (spawner) {
 	case 0:
 		if (random < 70) {
-			CreateCoin(Vector2D(32, 30), FACING_RIGHT, 0.02f);
+			//right
+			CreateCoin(Vector2D(64, 256), FACING_RIGHT, 0.02f);
 		}
 		else {
-			CreateKoopa(Vector2D(32, 30), FACING_RIGHT, 0.02f);
+			CreateKoopa(Vector2D(64, 256), FACING_RIGHT, 0.02f);
 		}
 		break;
 	case 1:
+		//left
 		if (random < 70) {
-			CreateCoin(Vector2D(480, 30), FACING_LEFT, 0.02f);
+			CreateCoin(Vector2D(448, 256), FACING_LEFT, 0.02f);
 		}
 		else {
-			CreateKoopa(Vector2D(480, 30), FACING_LEFT, 0.02f);
+			CreateKoopa(Vector2D(448, 256), FACING_LEFT, 0.02f);
+		}
+		break;
+	case 2:
+		//top
+		if (random < 70) {
+			CreateCoin(Vector2D(272, 64), FACING_LEFT, 0.02f);
+		}
+		else {
+			CreateKoopa(Vector2D(272, 64), FACING_RIGHT, 0.02f);
 		}
 		break;
 	}
