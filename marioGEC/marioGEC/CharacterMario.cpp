@@ -25,7 +25,7 @@ void CharacterMario::Update(float deltaTime, SDL_Event e) {
 
     if (m_jumping) {
         m_position.y -= m_jump_force * 0.00055;
-        m_jump_force -= JUMP_FORCE_DECREMENT * 0.0001;
+        m_jump_force -= JUMP_FORCE_DECREMENT;// *0.0001;
 
 
         if (m_jump_force <= 0.0f)

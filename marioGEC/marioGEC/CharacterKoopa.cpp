@@ -17,6 +17,7 @@ CharacterKoopa::CharacterKoopa(SDL_Renderer* renderer, std::string imagePath, Ve
 	m_movement_speed = movement_speed;
 	m_position = start_position;
 	m_alive = true;
+	m_current_level_map = map;
 	
 	m_single_sprite_w = m_texture->GetWidth() /2;
 	m_single_sprite_h = m_texture->GetHeight();

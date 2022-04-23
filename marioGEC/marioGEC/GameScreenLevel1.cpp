@@ -1,5 +1,6 @@
 #include "GameScreenLevel1.h"
 #include <iostream>
+#include <fstream>
 #include "Texture2D.h"
 #include "Character.h"
 #include "LevelMap.h"
@@ -88,21 +89,17 @@ void GameScreenLevel1::Update(float deltaTime, SDL_Event e) {
 }
 
 void GameScreenLevel1::SetLevelMap() {
-	int map[MAP_HEIGHT][MAP_WIDTH] = {
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-		{1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-		{0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0},
-		{1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-		{0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0},
-		{1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-		{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
-	};
+	int map[MAP_HEIGHT][MAP_WIDTH];
+	std::ifstream inFile;
+	inFile.open("Levels/Level1.txt");
+
+	for (int i = 0; i < MAP_HEIGHT; i++) {
+		for (int j = 0; j < MAP_WIDTH; j++) {
+			int temp = 0;
+			inFile >> temp;
+			map[i][j] = temp;
+		}
+	}
 	//clear any old maps
 	if (m_level_map != nullptr) {
 		delete m_level_map;
@@ -157,58 +154,50 @@ void GameScreenLevel1::UpdateEnemies(float deltaTime, SDL_Event e){
 
 			m_enemies[i]->Update(deltaTime, e);
 
-			if (Collisions::Instance()->Box(m_enemies[i]->GetCollisionBox(), mario->GetCollisionBox())) {
-				if (m_enemies[i]->GetInjured()) {
-					m_enemies[i]->SetAlive(false);
-				}
-				else if (!m_enemies[i]->GetInjured() && mario->Is_Jumping()) {
-					m_enemies[i]->SetInjured(true);
-				}
-				else {
-					if (mario->mariocoins == 0) {
-						mario->SetAlive(false);
+			if (mario->GetAlive() != false) {
+				if (Collisions::Instance()->Box(m_enemies[i]->GetCollisionBox(), mario->GetCollisionBox())) {
+					std::cout << "koopa collision mario";
+					if (m_enemies[i]->GetInjured()) {
+						m_enemies[i]->SetAlive(false);
+					}
+					else if (!m_enemies[i]->GetInjured() && mario->Is_Jumping()) {
+						m_enemies[i]->SetInjured(true);
 					}
 					else {
-						mario->SetInjured(true);
-						for (int i = 0; i < mario->mariocoins; i++) {
-							CoinSpawner();
+						if (mario->mariocoins == 0) {
+							mario->SetAlive(false);
+							mario_death = true;
 						}
-						mario->mariocoins = 0;
+						else {
+							mario->SetInjured(true);
+							for (int i = 0; i < mario->mariocoins; i++) {
+								CoinSpawner();
+							}
+							mario->mariocoins = 0;
+						}
 					}
 				}
 			}
-			if (Collisions::Instance()->Box(m_enemies[i]->GetCollisionBox(), luigi->GetCollisionBox())) {
-				if (m_enemies[i]->GetInjured()) {
-					m_enemies[i]->SetAlive(false);
-				}
-				else if (!m_enemies[i]->GetInjured() && luigi->Is_Jumping()) {
-					m_enemies[i]->SetInjured(true);
-				}
-				else {
-					if (luigi->luigicoins == 0) {
-						luigi->SetAlive(false);
+			if (luigi->GetAlive() != false) {
+				if (Collisions::Instance()->Box(m_enemies[i]->GetCollisionBox(), luigi->GetCollisionBox())) {
+					if (m_enemies[i]->GetInjured()) {
+						m_enemies[i]->SetAlive(false);
+					}
+					else if (!m_enemies[i]->GetInjured() && luigi->Is_Jumping()) {
+						m_enemies[i]->SetInjured(true);
 					}
 					else {
-						luigi->SetInjured(true);
-						for (int i = 0; i < luigi->luigicoins; i++) {
-							CoinSpawner();
-							/*int facing_random = rand() % 1;
-							int speed_random = (rand() % 100 + 1) / 100;
-							if (facing_random == 0) {
-								Vector2D position;
-								position.x = luigi->GetPosition().x + luigi->GetCollisionRadius();
-								position.y = luigi->GetPosition().y;
-								CreateCoin(position, FACING_RIGHT, speed_random);
-							}
-							else if (facing_random == 1) {
-								Vector2D position;
-								position.x = luigi->GetPosition().x - luigi->GetCollisionRadius();
-								position.y = luigi->GetPosition().y;
-								CreateCoin(position, FACING_RIGHT, speed_random);
-								CreateCoin(luigi->GetPosition(), FACING_LEFT, speed_random);*/
-							
+						if (luigi->luigicoins == 0) {
+							luigi->SetAlive(false);
+							luigi_death = true;
 						}
-						luigi->luigicoins = 0;
+						else {
+							luigi->SetInjured(true);
+							for (int i = 0; i < luigi->luigicoins; i++) {
+								CoinSpawner();
+							}
+							luigi->luigicoins = 0;
+						}
 					}
 				}
 			}
@@ -262,13 +251,13 @@ void GameScreenLevel1::UpdateCoins(float deltaTime, SDL_Event e) {
 			}
 			m_coins[i]->Update(deltaTime, e);
 
-			if (mario->GetInjured() == false) {
+			if (mario->GetInjured() == false && mario->GetAlive() == true) {
 				if (Collisions::Instance()->Circle(m_coins[i], mario)) {
 					m_coins[i]->SetAlive(false);
 					mario->mariocoins++;
 				}
 			}
-			if (luigi->GetInjured() == false) {
+			if (luigi->GetInjured() == false && luigi->GetAlive() == true) {
 				if (Collisions::Instance()->Circle(m_coins[i], luigi)) {
 					m_coins[i]->SetAlive(false);
 					luigi->luigicoins++;
@@ -304,32 +293,51 @@ void GameScreenLevel1::EnemySpawner(){
 	switch (spawner) {
 	case 0:
 		if (random < 70) {
-			CreateCoin(Vector2D(32, 30), FACING_RIGHT, 0.02f);
+			CreateCoin(Vector2D(64, 30), FACING_RIGHT, 0.02f);
 		}
 		else {
-			CreateKoopa(Vector2D(32, 30), FACING_RIGHT, 0.02f);
+			CreateKoopa(Vector2D(64, 30), FACING_RIGHT, 0.02f);
 		}
 		break;
 	case 1:
 		if (random < 70) {
-			CreateCoin(Vector2D(480, 30), FACING_LEFT, 0.02f);
+			CreateCoin(Vector2D(448, 30), FACING_LEFT, 0.02f);
 		}
 		else {
-			CreateKoopa(Vector2D(480, 30), FACING_LEFT, 0.02f);
+			CreateKoopa(Vector2D(448, 30), FACING_LEFT, 0.02f);
 		}
 		break;
 	}
 }
 
 void GameScreenLevel1::CoinSpawner() {
-	int spawner = std::rand() % 2;
+	int spawner = std::rand() % 3;
+	Vector2D coinPos;
 
 	switch (spawner) {
 	case 0:
-		CreateCoin(Vector2D(32, 30), FACING_RIGHT, 0.02f);
+		//coin from top
+		coinPos.x = rand() % 513;
+		coinPos.y = 0;
+		//if x is bigger or equal to centre pick direction based on
+		if (coinPos.x > 261) {
+			CreateCoin(coinPos, FACING_RIGHT , 0.02f);
+		}
+		else {
+			CreateCoin(coinPos, FACING_LEFT, 0.02f);
+		}
 		break;
 	case 1:
-		CreateCoin(Vector2D(480, 30), FACING_LEFT, 0.02f);
+		//coin from left
+		coinPos.x = 0;
+		coinPos.y = rand() % 385;
+		CreateCoin(coinPos, FACING_RIGHT, 0.02f);
 		break;
+	case 2:
+		//coin from right
+		coinPos.x = 512;
+		coinPos.y = rand() % 385;
+		CreateCoin(coinPos, FACING_LEFT, 0.02f);
 	}
 }
+
