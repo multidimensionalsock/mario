@@ -65,6 +65,7 @@ void CharacterKoopa::Update(float deltaTime, SDL_Event e){
 	}
 	Character::Update(deltaTime, e);
 	if (!m_injured) {
+		
 		if (m_facing_direction == FACING_LEFT) {
 			m_moving_left = true;
 			m_moving_right = false;
@@ -91,5 +92,10 @@ void CharacterKoopa::Update(float deltaTime, SDL_Event e){
 			m_position.x -= deltaTime * m_movement_speed;
 		}
 	}
-	
+	if (m_position.x <= 0) {
+		m_facing_direction = FACING_RIGHT;
+	}
+	else if (m_position.x >= 512) {
+		m_facing_direction = FACING_LEFT;
+	}
 }
