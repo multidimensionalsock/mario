@@ -85,10 +85,10 @@ void CharacterKoopa::Update(float deltaTime, SDL_Event e){
 			}
 		}
 		if (m_moving_right) {
-			m_position.x += m_movement_speed;
+			m_position.x += deltaTime * m_movement_speed;
 		}
 		else {
-			m_position.x -= m_movement_speed;
+			m_position.x -= deltaTime * m_movement_speed;
 		}
 	}
 	

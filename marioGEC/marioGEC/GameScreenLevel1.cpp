@@ -293,18 +293,18 @@ void GameScreenLevel1::EnemySpawner(){
 	switch (spawner) {
 	case 0:
 		if (random < 70) {
-			CreateCoin(Vector2D(64, 30), FACING_RIGHT, 0.02f);
+			CreateCoin(Vector2D(64, 30), FACING_RIGHT, 100.0f);
 		}
 		else {
-			CreateKoopa(Vector2D(64, 30), FACING_RIGHT, 0.02f);
+			CreateKoopa(Vector2D(64, 30), FACING_RIGHT, 100.0f);
 		}
 		break;
 	case 1:
 		if (random < 70) {
-			CreateCoin(Vector2D(448, 30), FACING_LEFT, 0.02f);
+			CreateCoin(Vector2D(448, 30), FACING_LEFT, 100.0f);
 		}
 		else {
-			CreateKoopa(Vector2D(448, 30), FACING_LEFT, 0.02f);
+			CreateKoopa(Vector2D(448, 30), FACING_LEFT, 100.0f);
 		}
 		break;
 	}
@@ -321,23 +321,23 @@ void GameScreenLevel1::CoinSpawner() {
 		coinPos.y = 0;
 		//if x is bigger or equal to centre pick direction based on
 		if (coinPos.x > 261) {
-			CreateCoin(coinPos, FACING_RIGHT , 0.02f);
+			CreateCoin(coinPos, FACING_RIGHT , 100.0f);
 		}
 		else {
-			CreateCoin(coinPos, FACING_LEFT, 0.02f);
+			CreateCoin(coinPos, FACING_LEFT, 100.0f);
 		}
 		break;
 	case 1:
 		//coin from left
 		coinPos.x = 0;
 		coinPos.y = rand() % 385;
-		CreateCoin(coinPos, FACING_RIGHT, 0.02f);
+		CreateCoin(coinPos, FACING_RIGHT, 100.0f);
 		break;
 	case 2:
 		//coin from right
 		coinPos.x = 512;
 		coinPos.y = rand() % 385;
-		CreateCoin(coinPos, FACING_LEFT, 0.02f);
+		CreateCoin(coinPos, FACING_LEFT, 100.0f);
 	}
 }
 
