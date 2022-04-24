@@ -1,18 +1,1 @@
-﻿  CharacterKoopa.cpp
-C:\Users\Robyn\Downloads\marioGEC\marioGEC\marioGEC\marioGEC\marioGEC\Character.h(46,118): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\Robyn\Downloads\marioGEC\marioGEC\marioGEC\marioGEC\marioGEC\Character.h(46,92): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\Robyn\Downloads\marioGEC\marioGEC\marioGEC\marioGEC\marioGEC\CharacterKoopa.h(24,117): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\Robyn\Downloads\marioGEC\marioGEC\marioGEC\marioGEC\marioGEC\CharacterKoopa.h(24,91): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\Robyn\Downloads\marioGEC\marioGEC\marioGEC\marioGEC\marioGEC\CharacterKoopa.cpp(22,44): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-C:\Users\Robyn\Downloads\marioGEC\marioGEC\marioGEC\marioGEC\marioGEC\CharacterKoopa.cpp(23,42): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-C:\Users\Robyn\Downloads\marioGEC\marioGEC\marioGEC\marioGEC\marioGEC\CharacterKoopa.cpp(45,11): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\Robyn\Downloads\marioGEC\marioGEC\marioGEC\marioGEC\marioGEC\CharacterKoopa.cpp(47,10): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-C:\Users\Robyn\Downloads\marioGEC\marioGEC\marioGEC\marioGEC\marioGEC\CharacterKoopa.cpp(48,42): warning C4838: conversion from 'float' to 'int' requires a narrowing conversion
-C:\Users\Robyn\Downloads\marioGEC\marioGEC\marioGEC\marioGEC\marioGEC\CharacterKoopa.cpp(48,42): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\Robyn\Downloads\marioGEC\marioGEC\marioGEC\marioGEC\marioGEC\CharacterKoopa.cpp(48,61): warning C4838: conversion from 'float' to 'int' requires a narrowing conversion
-C:\Users\Robyn\Downloads\marioGEC\marioGEC\marioGEC\marioGEC\marioGEC\CharacterKoopa.cpp(48,61): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\Robyn\Downloads\marioGEC\marioGEC\marioGEC\marioGEC\marioGEC\CharacterKoopa.cpp(49,66): warning C4838: conversion from 'float' to 'int' requires a narrowing conversion
-C:\Users\Robyn\Downloads\marioGEC\marioGEC\marioGEC\marioGEC\marioGEC\CharacterKoopa.cpp(49,66): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\Robyn\Downloads\marioGEC\marioGEC\marioGEC\marioGEC\marioGEC\CharacterKoopa.cpp(49,85): warning C4838: conversion from 'float' to 'int' requires a narrowing conversion
-C:\Users\Robyn\Downloads\marioGEC\marioGEC\marioGEC\marioGEC\marioGEC\CharacterKoopa.cpp(49,85): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-  marioGEC.vcxproj -> C:\Users\Robyn\Downloads\marioGEC\marioGEC\marioGEC\marioGEC\Debug\marioGEC.exe
+﻿
