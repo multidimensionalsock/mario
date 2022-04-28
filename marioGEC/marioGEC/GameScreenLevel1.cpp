@@ -60,6 +60,7 @@ bool GameScreenLevel1::SetUpLevel() {
 }
 
 void GameScreenLevel1::Update(float deltaTime, SDL_Event e) {
+	
 	//screen shake
 	if (m_screenshake) {
 		m_shake_time -= deltaTime;
@@ -71,9 +72,11 @@ void GameScreenLevel1::Update(float deltaTime, SDL_Event e) {
 			m_background_yPos = 0.0f;
 		}
 	}
+	float fps = 1.0 / deltaTime;
 	spawnerFrameCount += 1;
+
 	//update character
-	if (spawnerFrameCount > 5000) {
+	if (spawnerFrameCount > 25 * fps) {
 		EnemySpawner();
 		spawnerFrameCount = 0;
 	}
@@ -139,8 +142,6 @@ void GameScreenLevel1::DoScreenshake() {
 }
 
 void GameScreenLevel1::UpdateEnemies(float deltaTime, SDL_Event e){
-	//need t  add mario hit code myself 
-
 	if (!m_enemies.empty()){
 		int enemyIndexToDelete = -1;
 		for (unsigned int i = 0; i < m_enemies.size(); i++){
@@ -202,40 +203,14 @@ void GameScreenLevel1::UpdateEnemies(float deltaTime, SDL_Event e){
 				}
 			}
 
-			////check if enemy collides with player
-			//if ((m_enemies[i]->GetPosition().y > 300.0f || m_enemies[i]->GetPosition().y <= 64.0f) && (m_enemies[i]->
-			//	GetPosition().x < 64.0f || m_enemies[i]->GetPosition().x > SCREEN_WIDTH - 96.0f)){
-			//	//ignore collisions if behind pipe
-			//}
-			//else{
-			//	if (Collisions::Instance()->Circle(m_enemies[i], mario)){
-			//		if (m_enemies[i]->GetInjured()){
-			//			m_enemies[i]->SetAlive(false);
-			//		}
-			//		else{
-			//			mario->SetAlive(false);
-			//		}
-			//	}
-			//	if (Collisions::Instance()->Circle(m_enemies[i], luigi)) {
-			//		if (m_enemies[i]->GetInjured()) {
-			//			m_enemies[i]->SetAlive(false);
-			//		}
-			//		else {
-			//			luigi->SetAlive(false);
-			//		}
-			//	}
-
 			if (!m_enemies[i]->GetAlive()){
 				enemyIndexToDelete = i; //schedule dead enemies deletion
 			}
 		}
-
 		if (enemyIndexToDelete != -1){
 			m_enemies.erase(m_enemies.begin() + enemyIndexToDelete); // remove dead enemies
 		}
-		 
 	}
-
 }
 
 void GameScreenLevel1::UpdateCoins(float deltaTime, SDL_Event e) {
@@ -292,19 +267,19 @@ void GameScreenLevel1::EnemySpawner(){
 
 	switch (spawner) {
 	case 0:
-		if (random < 70) {
-			CreateCoin(Vector2D(64, 30), FACING_RIGHT, 0.02f);
+		if (random < 50) {
+			CreateCoin(Vector2D(64, 30), FACING_RIGHT, 100.0f);
 		}
 		else {
-			CreateKoopa(Vector2D(64, 30), FACING_RIGHT, 0.02f);
+			CreateKoopa(Vector2D(64, 30), FACING_RIGHT, 100.0f);
 		}
 		break;
 	case 1:
-		if (random < 70) {
-			CreateCoin(Vector2D(448, 30), FACING_LEFT, 0.02f);
+		if (random < 50) {
+			CreateCoin(Vector2D(448, 30), FACING_LEFT, 100.0f);
 		}
 		else {
-			CreateKoopa(Vector2D(448, 30), FACING_LEFT, 0.02f);
+			CreateKoopa(Vector2D(448, 30), FACING_LEFT, 100.0f);
 		}
 		break;
 	}
@@ -321,23 +296,23 @@ void GameScreenLevel1::CoinSpawner() {
 		coinPos.y = 0;
 		//if x is bigger or equal to centre pick direction based on
 		if (coinPos.x > 261) {
-			CreateCoin(coinPos, FACING_RIGHT , 0.02f);
+			CreateCoin(coinPos, FACING_RIGHT , 100.0f);
 		}
 		else {
-			CreateCoin(coinPos, FACING_LEFT, 0.02f);
+			CreateCoin(coinPos, FACING_LEFT, 100.0f);
 		}
 		break;
 	case 1:
 		//coin from left
 		coinPos.x = 0;
 		coinPos.y = rand() % 385;
-		CreateCoin(coinPos, FACING_RIGHT, 0.02f);
+		CreateCoin(coinPos, FACING_RIGHT, 100.0f);
 		break;
 	case 2:
 		//coin from right
 		coinPos.x = 512;
 		coinPos.y = rand() % 385;
-		CreateCoin(coinPos, FACING_LEFT, 0.02f);
+		CreateCoin(coinPos, FACING_LEFT, 100.0f);
 	}
 }
 

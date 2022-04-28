@@ -3,6 +3,7 @@
 
 GameScreen::GameScreen(SDL_Renderer* renderer) {
 	m_renderer = renderer;
+	FPS = 0;
 }
 GameScreen::~GameScreen() {
 	m_renderer = nullptr;

@@ -50,9 +50,9 @@ void Coin::Update(float deltaTime, SDL_Event e) {
 	}
 	Character::Update(deltaTime, e);
 		if (m_moving_right) {
-			m_position.x += m_movement_speed;
+			m_position.x += deltaTime * m_movement_speed;
 		}
 		else if (m_moving_left) {
-			m_position.x -= m_movement_speed;
+			m_position.x -= deltaTime * m_movement_speed;
 		}
 }
