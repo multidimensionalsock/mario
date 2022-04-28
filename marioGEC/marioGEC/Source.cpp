@@ -1,6 +1,7 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_mixer.h>
+#include <SDL_ttf.h>
 #include "Constants.h"
 #include <iostream>
 #include "Texture2D.h"
@@ -66,6 +67,11 @@ bool InitSDL() {
 		return false;
 	}
 
+	if (TTF_Init() == -1) {
+		cout << "TTF did not initialise. ERROR. " << TTF_GetError();
+		return false;
+	}
+
 	return true;
 }
 
@@ -80,6 +86,8 @@ void CloseSDL() {
 
 	SDL_DestroyRenderer(g_renderer);
 	g_renderer = nullptr;
+	
+	TTF_Quit();
 
 	delete game_screen_manager;
 	game_screen_manager = nullptr;
