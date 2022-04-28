@@ -60,6 +60,7 @@ bool GameScreenLevel1::SetUpLevel() {
 }
 
 void GameScreenLevel1::Update(float deltaTime, SDL_Event e) {
+	
 	//screen shake
 	if (m_screenshake) {
 		m_shake_time -= deltaTime;
@@ -71,9 +72,11 @@ void GameScreenLevel1::Update(float deltaTime, SDL_Event e) {
 			m_background_yPos = 0.0f;
 		}
 	}
+	float fps = 1.0 / deltaTime;
 	spawnerFrameCount += 1;
+
 	//update character
-	if (spawnerFrameCount > 5000) {
+	if (spawnerFrameCount > 25 * fps) {
 		EnemySpawner();
 		spawnerFrameCount = 0;
 	}
@@ -264,7 +267,7 @@ void GameScreenLevel1::EnemySpawner(){
 
 	switch (spawner) {
 	case 0:
-		if (random < 70) {
+		if (random < 50) {
 			CreateCoin(Vector2D(64, 30), FACING_RIGHT, 100.0f);
 		}
 		else {
@@ -272,7 +275,7 @@ void GameScreenLevel1::EnemySpawner(){
 		}
 		break;
 	case 1:
-		if (random < 70) {
+		if (random < 50) {
 			CreateCoin(Vector2D(448, 30), FACING_LEFT, 100.0f);
 		}
 		else {
