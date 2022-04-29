@@ -9,7 +9,7 @@ public:
 	~TextRenderer();
 	void Render(int x, int y);
 	void Free();
-	bool LoadFont(std::string path, int font_size, std::string message, SDL_Colour text_colour);
+	bool LoadFont(std::string path, int font_size, std::string message);
 
 private:
 	SDL_Renderer* m_renderer;

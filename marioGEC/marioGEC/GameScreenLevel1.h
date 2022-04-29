@@ -14,6 +14,7 @@ class Texture2D; //forward declaration
 class Character;
 class LevelMap;
 class PowBlock;
+class TextRenderer;
 
 class GameScreenLevel1 : public GameScreen{
 	private:
@@ -21,6 +22,9 @@ class GameScreenLevel1 : public GameScreen{
 		CharacterMario* mario;
 		CharacterLuigi* luigi;
 		CharacterKoopa* koopa;
+		TextRenderer* mario_score_render;
+		std::string mario_score_text;
+		int score_mario;
 		Coin* coin;
 		LevelMap* m_level_map;
 		PowBlock* m_pow_block;

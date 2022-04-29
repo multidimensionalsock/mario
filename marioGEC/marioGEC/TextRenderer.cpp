@@ -20,11 +20,12 @@ void TextRenderer::Render(int x, int y)
 
 }
 
-bool TextRenderer::LoadFont(std::string path, int font_size, std::string message, SDL_Colour text_colour)
+bool TextRenderer::LoadFont(std::string path, int font_size, std::string message)
 {
 	//do loading error catching 
 	m_font = TTF_OpenFont(path.c_str(), font_size);
-	text_surface = TTF_RenderText_Solid(m_font, message.c_str(), text_colour);
+	SDL_Color white = { 255, 255, 255 };
+	text_surface = TTF_RenderText_Solid(m_font, message.c_str(), white);
 	SDL_CreateTextureFromSurface(m_renderer, text_surface);
 	TTF_CloseFont(m_font);
 	Free();
