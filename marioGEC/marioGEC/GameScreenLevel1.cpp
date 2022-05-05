@@ -6,6 +6,7 @@
 #include "LevelMap.h"
 #include "PowBlock.h"
 #include "Collisions.h"
+#include "TextRenderer.h"
 
 GameScreenLevel1::GameScreenLevel1(SDL_Renderer* renderer) : GameScreen(renderer) {
 	SetUpLevel();
@@ -38,6 +39,7 @@ void GameScreenLevel1::Render() {
 	for (int i = 0; i < m_enemies.size(); i++) {
 		m_enemies[i]->Render();
 	}
+	mario_score_render->Render(0, 0);
 }
 
 bool GameScreenLevel1::SetUpLevel() {
@@ -45,6 +47,9 @@ bool GameScreenLevel1::SetUpLevel() {
 
 	mario = new CharacterMario(m_renderer, "Images/Mario.png", Vector2D(40, 330),m_level_map);
 	luigi = new CharacterLuigi(m_renderer, "Images/Luigi.png", Vector2D(140, 330), m_level_map);
+	mario_score_render = new TextRenderer(m_renderer);
+	mario_score_text = ("Score: " + std::to_string(score_mario));
+	mario_score_render->LoadFont("Fonts/munro.ttf", 32, mario_score_text);
 	m_pow_block = new PowBlock(m_renderer, m_level_map);
 	m_screenshake = false;
 	m_background_yPos = 0.0f;
